@@ -4,7 +4,8 @@ import userrouter from "./user.route"
 const router = express.Router()
 
 
-router.use('/',userrouter)
+router.use('/user',userrouter)
+
 
 
 

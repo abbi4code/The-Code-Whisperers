@@ -5,10 +5,10 @@ export const signupinput = z.object({
     .string()
     .min(5, { message: "username of min 5 character" })
     .email({ message: "Invalid email address" }),
-  password: z.string().min(6, { message: "Must be 6 or more characters long" }),
+  password: z.string().min(6, { message: "Password must be 6 or more characters long" }),
   fullname: z
     .string()
-    .min(6, { message: "Must be 6 or more characters long" })
+    .min(6, { message: "Fullname must be 6 or more characters long" })
     .optional(),
 });
 export const signininput = z.object({
@@ -16,7 +16,7 @@ export const signininput = z.object({
     .string()
     .min(5, { message: "username of min 5 character" })
     .email({ message: "Invalid email address" }),
-  password: z.string().min(6, { message: "Must be 6 or more characters long" }),
+  password: z.string().min(6, { message: "password must be 6 or more characters long" }),
 });
 
 export const blogsinput = z.object({
