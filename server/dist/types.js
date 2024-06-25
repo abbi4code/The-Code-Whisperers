@@ -34,5 +34,5 @@ exports.updateblogsinput = zod_1.default.object({
         .min(1, { message: "username of min 1 character" })
         .optional(),
     description: zod_1.default.string().optional(),
-    userid: zod_1.default.number(),
+    userid: zod_1.default.number().optional(),
 });

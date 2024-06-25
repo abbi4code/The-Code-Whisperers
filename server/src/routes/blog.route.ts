@@ -1,7 +1,8 @@
 import express from "express"
 import authvalidation from "../middlewares/auth.middleware"
-import { blogsinput } from "../types"
+import { blogsinput, updateblogsinput } from "../types"
 import { PrismaClient } from "@prisma/client"
+import { title } from "process"
 
 const router = express.Router()
 const prisma = new PrismaClient()
@@ -89,10 +90,71 @@ router.get('/uniqueblog',async(req,res)=>{
         title: blogobject?.title,
         description: blogobject?.description,
         upvotes: blogobject?.upvotes
-        
+
     }
 
     res.status(200).json({ blog });
+
+
+})
+
+router.post('/update',authvalidation,async(req,res)=>{
+    const blogid = req.query.blogid;
+    if (!blogid) {
+      res.status(404).json({ msg: "blog id not provided" });
+    }
+
+    const details = req.body
+
+  try {
+    //@ts-ignore
+    const userid = req.user.userid;
+    console.log(userid)
+
+    const validinputs = updateblogsinput.safeParse({
+      title: details.title,
+      description: details.description,
+    });
+    if (!validinputs.success) {
+      const msg = validinputs.error.errors.map((err) => err.message);
+      return res.status(404).json({ msg });
+    }
+
+    const datatoupdate: { title?: string; description?: string } = {};
+    if (details.title) {
+      datatoupdate.title = details.title;
+    }
+    if (details.description) {
+      datatoupdate.description = details.description;
+    }
+
+    const blog = await prisma.blogs.update({
+      where: {
+        //@ts-ignore
+        id: blogid,
+        userid: userid
+      },
+      data: datatoupdate,
+    });
+    if(!blog){
+        return res.status(400).json({msg : "blog not found"})
+    }
+
+    console.log(blog);
+    res.status(200).json({blog})
+  } catch (error) {
+    console.log(error)
+    res.json({msg: "error while updating blogs"})
+    
+  }
+
+
+
+
+
+
+
+
 
 
 })

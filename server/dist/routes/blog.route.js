@@ -83,8 +83,53 @@ router.get('/uniqueblog', (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
     const blog = {
         title: blogobject === null || blogobject === void 0 ? void 0 : blogobject.title,
-        description: blogobject === null || blogobject === void 0 ? void 0 : blogobject.description
+        description: blogobject === null || blogobject === void 0 ? void 0 : blogobject.description,
+        upvotes: blogobject === null || blogobject === void 0 ? void 0 : blogobject.upvotes
     };
     res.status(200).json({ blog });
+}));
+router.post('/update', auth_middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const blogid = req.query.blogid;
+    if (!blogid) {
+        res.status(404).json({ msg: "blog id not provided" });
+    }
+    const details = req.body;
+    try {
+        //@ts-ignore
+        const userid = req.user.userid;
+        console.log(userid);
+        const validinputs = types_1.updateblogsinput.safeParse({
+            title: details.title,
+            description: details.description,
+        });
+        if (!validinputs.success) {
+            const msg = validinputs.error.errors.map((err) => err.message);
+            return res.status(404).json({ msg });
+        }
+        const datatoupdate = {};
+        if (details.title) {
+            datatoupdate.title = details.title;
+        }
+        if (details.description) {
+            datatoupdate.description = details.description;
+        }
+        const blog = yield prisma.blogs.update({
+            where: {
+                //@ts-ignore
+                id: blogid,
+                userid: userid
+            },
+            data: datatoupdate,
+        });
+        if (!blog) {
+            return res.status(400).json({ msg: "blog not found" });
+        }
+        console.log(blog);
+        res.status(200).json({ blog });
+    }
+    catch (error) {
+        console.log(error);
+        res.json({ msg: "error while updating blogs" });
+    }
 }));
 exports.default = router;

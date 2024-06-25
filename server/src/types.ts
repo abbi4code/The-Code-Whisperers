@@ -32,7 +32,7 @@ export const updateblogsinput = z.object({
     .min(1, { message: "username of min 1 character" })
     .optional(),
   description: z.string().optional(),
-  userid: z.number(),
+  userid: z.number().optional(),
 });
 
 export type signininput = z.infer<typeof signininput>;
