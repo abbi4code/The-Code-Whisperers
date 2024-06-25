@@ -18,7 +18,7 @@ const client_1 = require("@prisma/client");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const router = express_1.default.Router();
 const prisma = new client_1.PrismaClient();
-const secretkey = process.env.JWT_SECRET || "";
+const secretkey = process.env.JWT_SECRET || "abhishek";
 router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const details = req.body;
     try {

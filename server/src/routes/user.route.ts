@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken"
 const router = express.Router()
 
 const prisma = new PrismaClient()
-const secretkey = process.env.JWT_SECRET || ""
+const secretkey = process.env.JWT_SECRET || "abhishek"
 
 
 

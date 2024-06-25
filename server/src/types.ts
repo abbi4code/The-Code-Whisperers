@@ -22,8 +22,9 @@ export const signininput = z.object({
 export const blogsinput = z.object({
   title: z.string().min(1, { message: "username of min 1 character" }),
   description: z.string().optional(),
-  upvotes: z.number(),
+  upvotes: z.number().optional(),
 });
+
 
 export const updateblogsinput = z.object({
   title: z

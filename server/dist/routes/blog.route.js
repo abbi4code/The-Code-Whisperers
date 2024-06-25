@@ -1,0 +1,90 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const auth_middleware_1 = __importDefault(require("../middlewares/auth.middleware"));
+const types_1 = require("../types");
+const client_1 = require("@prisma/client");
+const router = express_1.default.Router();
+const prisma = new client_1.PrismaClient();
+router.post('/create', auth_middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const inputs = req.body;
+    try {
+        const validinputs = types_1.blogsinput.safeParse({
+            title: inputs.title,
+            description: inputs.description,
+        });
+        if (!validinputs.success) {
+            const msg = validinputs.error.errors.map((item) => item.message);
+            return res.status(404).json({ msg });
+        }
+        // @ts-ignore
+        const userid = req.user.userid;
+        const blog = yield prisma.blogs.create({
+            data: {
+                title: inputs.title,
+                description: inputs.description,
+                userid: userid
+            }
+        });
+        console.log(blog);
+        res.status(200).json({ blog });
+    }
+    catch (error) {
+        console.group(error);
+        res.json({ error });
+    }
+}));
+router.get('/bulk', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const bulk = yield prisma.blogs.findMany();
+    return res.status(200).json({ bulk });
+}));
+router.get('/myblogs', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //@ts-ignore
+    const id = parseInt(req.query.id);
+    if (!id) {
+        res.status(404).json({ msg: "blog id not provided" });
+    }
+    const blogs = yield prisma.blogs.findMany({
+        where: {
+            userid: id
+        }
+    });
+    if (!blogs) {
+        res.status(404).json({ msg: "invalid id" });
+    }
+    res.json({ blogs });
+}));
+//unique blog
+router.get('/uniqueblog', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const blogid = req.query.blogid;
+    if (!blogid) {
+        res.status(404).json({ msg: "blog id not provided" });
+    }
+    const blogobject = yield prisma.blogs.findUnique({
+        where: {
+            //@ts-ignore
+            id: blogid
+        },
+    });
+    if (!blogobject) {
+        res.status(404).json({ msg: "invalid id" });
+    }
+    const blog = {
+        title: blogobject === null || blogobject === void 0 ? void 0 : blogobject.title,
+        description: blogobject === null || blogobject === void 0 ? void 0 : blogobject.description
+    };
+    res.status(200).json({ blog });
+}));
+exports.default = router;

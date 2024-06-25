@@ -26,7 +26,7 @@ exports.signininput = zod_1.default.object({
 exports.blogsinput = zod_1.default.object({
     title: zod_1.default.string().min(1, { message: "username of min 1 character" }),
     description: zod_1.default.string().optional(),
-    upvotes: zod_1.default.number(),
+    upvotes: zod_1.default.number().optional(),
 });
 exports.updateblogsinput = zod_1.default.object({
     title: zod_1.default
