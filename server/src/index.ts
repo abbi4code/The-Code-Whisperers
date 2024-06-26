@@ -1,11 +1,12 @@
 import express from "express"
 import ruotes from "./routes/index"
 import dotenv from "dotenv"
-
+import cors from "cors"
 
 const PORT = 3000
 
 const app = express()
+app.use(cors())
 dotenv.config()
 app.use(express.json())
 
