@@ -1,15 +1,30 @@
 import ShineBorder from "../components/effects/shineborder";
-import React from "react";
+import React, { useState } from "react";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { cn } from "../components/utils/cn";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { backendUrl } from "../config";
+import axios from "axios";
+interface Signininput {
+  email: string;
+  password: string;
+
+}
+const serverurl = backendUrl
+
 
 export default function Signin() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted");
   }
+   const navigate = useNavigate();
+const [Signininput, useSignininput] = useState<Signininput>({
+  email: "",
+  password: ""
+})
+
   
   
   return (
@@ -30,19 +45,42 @@ export default function Signin() {
         </p>
 
         <form className="mt-20" onSubmit={handleSubmit}>
-          
           <LabelInputContainer className="mb-4">
             <Label htmlFor="email">Email Address</Label>
-            <Input id="email" placeholder="name@exy.com" type="email" />
+            <Input
+              id="email"
+              placeholder="name@exy.com"
+              type="email"
+              onChange={(e) =>
+                useSignininput((c) => ({ ...c, email: e.target.value }))
+              }
+            />
           </LabelInputContainer>
           <LabelInputContainer className="mb-4">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" placeholder="••••••••" type="password" />
+            <Input
+              id="password"
+              placeholder="••••••••"
+              type="password"
+              onChange={(e) =>
+                useSignininput((c) => ({ ...c, password: e.target.value }))
+              }
+            />
           </LabelInputContainer>
 
           <button
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
             type="submit"
+            onClick={async () => {
+              const res = await axios.post(`${serverurl}/user/signin`, {
+                email: Signininput.email,
+                password: Signininput.password,
+                
+              });
+              const token = res.data.token;
+              localStorage.setItem("token", token);
+              navigate("/");
+            }}
           >
             Sign in &rarr;
             <BottomGradient />
