@@ -6,11 +6,13 @@ export const signupinput = z.object({
     .min(5, { message: "username of min 5 character" })
     .email({ message: "Invalid email address" }),
   password: z.string().min(6, { message: "Password must be 6 or more characters long" }),
-  fullname: z
+ firstname: z
     .string()
-    .min(6, { message: "Fullname must be 6 or more characters long" })
     .optional(),
-});
+ lastname: z
+    .string()
+    .optional(),
+})
 export const signininput = z.object({
   email: z
     .string()

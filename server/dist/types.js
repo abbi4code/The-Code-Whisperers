@@ -11,9 +11,11 @@ exports.signupinput = zod_1.default.object({
         .min(5, { message: "username of min 5 character" })
         .email({ message: "Invalid email address" }),
     password: zod_1.default.string().min(6, { message: "Password must be 6 or more characters long" }),
-    fullname: zod_1.default
+    firstname: zod_1.default
         .string()
-        .min(6, { message: "Fullname must be 6 or more characters long" })
+        .optional(),
+    lastname: zod_1.default
+        .string()
         .optional(),
 });
 exports.signininput = zod_1.default.object({

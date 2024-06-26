@@ -22,7 +22,7 @@ const secretkey = process.env.JWT_SECRET || "abhishek";
 router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const details = req.body;
     try {
-        const validuser = types_1.signupinput.safeParse({ email: details.email, password: details.password, fullname: details.fullname });
+        const validuser = types_1.signupinput.safeParse({ email: details.email, password: details.password, firstname: details.firstname, details: details.lastname });
         if (!validuser.success) {
             const msg = validuser.error.errors.map((item) => item.message);
             return res.json({ msg });
@@ -40,7 +40,8 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
             data: {
                 email: details.email,
                 password: details.password,
-                fullname: details.fullname
+                firstname: details.firstname,
+                lastname: details.lastname
             }
         });
         console.log(newuser);

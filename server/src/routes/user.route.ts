@@ -17,7 +17,7 @@ const secretkey = process.env.JWT_SECRET || "abhishek"
 router.post('/signup',async(req,res)=>{
     const details = req.body
   try {
-      const validuser = signupinput.safeParse({email: details.email,password: details.password, fullname: details.fullname })
+      const validuser = signupinput.safeParse({email: details.email,password: details.password, firstname: details.firstname,details:details.lastname})
     if(!validuser.success){
         const msg = validuser.error.errors.map((item)=> item.message)
         return res.json({msg})
@@ -37,7 +37,8 @@ router.post('/signup',async(req,res)=>{
         data:{
             email: details.email,
             password: details.password,
-            fullname: details.fullname
+            firstname: details.firstname,
+            lastname: details.lastname
         }
     })
 
