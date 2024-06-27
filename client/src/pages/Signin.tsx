@@ -78,8 +78,12 @@ const [Signininput, useSignininput] = useState<Signininput>({
                 
               });
               const token = res.data.token;
-              localStorage.setItem("token", token);
-              navigate("/");
+              if (token) {
+                localStorage.setItem("token", token);
+                navigate("/");
+              } else {
+                console.log(res.data.msg);
+              }
             }}
           >
             Sign in &rarr;
