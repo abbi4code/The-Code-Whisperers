@@ -1,11 +1,11 @@
 import ShineBorder from "../components/effects/shineborder";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { cn } from "../components/utils/cn";
 import { Link, useNavigate } from "react-router-dom";
 import {backendUrl} from "../config"
+import axios from "axios";
 
 interface Signupinput{
     email: string,
@@ -110,8 +110,14 @@ const [Signupinput, useSignupinput] = useState<Signupinput>({
                 lastname: Signupinput.lastname,
               });
               const token = res.data.token 
-              localStorage.setItem("token",token)
-              navigate('/')
+              if(token){
+                localStorage.setItem("token",token)
+                navigate('/')
+
+              }else{
+                console.log(res.data.msg)
+              }
+
 
 
 
