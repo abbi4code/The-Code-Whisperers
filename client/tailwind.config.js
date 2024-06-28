@@ -10,7 +10,14 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      animation: {
+        grid: "grid 20s linear infinite",
+      },
       keyframes: {
+        grid: {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(-100%)" },
+        },
         "shine-pulse": {
           "0%": {
             "background-position": "0% 0%",
