@@ -32,5 +32,7 @@ model Blogs{
   imageurl String 
   user User @relation(fields: [userid] ,references: [id])
   userid Int
+  createAtdate DateTime @default(now()) @db.Date
+  createAttime DateTime @default(now()) @db.Time
 
 }

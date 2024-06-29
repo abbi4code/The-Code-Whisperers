@@ -2,8 +2,6 @@ import express from "express"
 import authvalidation from "../middlewares/auth.middleware"
 import { updateblogsinput } from "../types"
 import { PrismaClient } from "@prisma/client"
-
-
 import cloudinaryUpload from "../utils/cloudinary"
 import { upload } from "../middlewares/multer.middleware"
 
