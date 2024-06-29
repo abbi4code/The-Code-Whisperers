@@ -12,10 +12,12 @@ import { useState } from 'react'
 function App() {
  
 
+
   return (
     <>
       <BrowserRouter>
-        <Navbar className="top-2" />
+        {/* <Navbar className="top-2" /> */}
+       
         <Routes>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />

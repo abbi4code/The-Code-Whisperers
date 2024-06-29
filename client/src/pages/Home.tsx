@@ -1,46 +1,9 @@
 import RetroGrid from "../components/effects/retrobg";
 import GradualSpacing from "../components/effects/gradualspacing";
-import WordRotate from "../components/effects/wordrotate";
+
 import { EvervaultCard, Icon } from "../components/ui/card";
 
 
-
-const slugs = [
-  "typescript",
-  "javascript",
-  "dart",
-  "java",
-  "react",
-  "flutter",
-  "android",
-  "html5",
-  "css3",
-  "nodedotjs",
-  "express",
-  "nextdotjs",
-  "prisma",
-  "amazonaws",
-  "postgresql",
-  "firebase",
-  "nginx",
-  "vercel",
-  "testinglibrary",
-  "jest",
-  "cypress",
-  "docker",
-  "git",
-  "jira",
-  "github",
-  "gitlab",
-  "visualstudiocode",
-  "androidstudio",
-  "sonarqube",
-  "figma",
-];
-
-
-
-const words = ["Coders", "Programmer"]
 const Home = () => {
   return (
     <div className="relative h-screen w-full overflow-hidden bg-background bg-black">
