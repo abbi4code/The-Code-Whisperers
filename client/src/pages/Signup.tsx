@@ -118,9 +118,6 @@ const [Signupinput, useSignupinput] = useState<Signupinput>({
                 console.log(res.data.msg)
               }
 
-
-
-
             }}
           >
             Sign up &rarr;

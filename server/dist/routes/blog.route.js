@@ -16,6 +16,8 @@ const express_1 = __importDefault(require("express"));
 const auth_middleware_1 = __importDefault(require("../middlewares/auth.middleware"));
 const types_1 = require("../types");
 const client_1 = require("@prisma/client");
+const apiError_1 = __importDefault(require("../utils/apiError"));
+const cloudinary_1 = __importDefault(require("../utils/cloudinary"));
 const router = express_1.default.Router();
 const prisma = new client_1.PrismaClient();
 router.post('/create', auth_middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,19 +26,33 @@ router.post('/create', auth_middleware_1.default, (req, res) => __awaiter(void 0
         const validinputs = types_1.blogsinput.safeParse({
             title: inputs.title,
             description: inputs.description,
+            imageurl: inputs.imageurl,
         });
         if (!validinputs.success) {
             const msg = validinputs.error.errors.map((item) => item.message);
             return res.status(404).json({ msg });
+            // throw new ApiError(404,msg)
         }
         // @ts-ignore
         const userid = req.user.userid;
+        // @ts-ignore
+        const imgurlpath = req.files.imageurl[0].path;
+        console.log(req.files);
+        console.log(imgurlpath);
+        if (!imgurlpath) {
+            throw new apiError_1.default(401, "img not uploaded");
+        }
+        const img = yield (0, cloudinary_1.default)(imgurlpath);
+        if (!img) {
+            throw new apiError_1.default(400, "input img required");
+        }
         const blog = yield prisma.blogs.create({
             data: {
                 title: inputs.title,
                 description: inputs.description,
-                userid: userid
-            }
+                userid: userid,
+                imageurl: img.url,
+            },
         });
         console.log(blog);
         res.status(200).json({ blog });
@@ -84,7 +100,8 @@ router.get('/uniqueblog', (req, res) => __awaiter(void 0, void 0, void 0, functi
     const blog = {
         title: blogobject === null || blogobject === void 0 ? void 0 : blogobject.title,
         description: blogobject === null || blogobject === void 0 ? void 0 : blogobject.description,
-        upvotes: blogobject === null || blogobject === void 0 ? void 0 : blogobject.upvotes
+        upvotes: blogobject === null || blogobject === void 0 ? void 0 : blogobject.upvotes,
+        imageurl: blogobject === null || blogobject === void 0 ? void 0 : blogobject.imageurl
     };
     res.status(200).json({ blog });
 }));

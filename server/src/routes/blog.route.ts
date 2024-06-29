@@ -2,7 +2,11 @@ import express from "express"
 import authvalidation from "../middlewares/auth.middleware"
 import { blogsinput, updateblogsinput } from "../types"
 import { PrismaClient } from "@prisma/client"
-import { title } from "process"
+import ApiError from "../utils/apiError"
+import { error } from "console"
+import cloudinaryUpload from "../utils/cloudinary"
+
+
 
 const router = express.Router()
 const prisma = new PrismaClient()
@@ -12,29 +16,44 @@ router.post('/create',authvalidation,async(req,res)=>{
     const inputs = req.body
 
     try {
-        const validinputs = blogsinput.safeParse({
+      const validinputs = blogsinput.safeParse({
+        title: inputs.title,
+        description: inputs.description,
+        imageurl: inputs.imageurl,
+      });
+      if (!validinputs.success) {
+        const msg = validinputs.error.errors.map((item) => item.message);
+        return res.status(404).json({ msg });
+        // throw new ApiError(404,msg)
+      }
+      // @ts-ignore
+      const userid: number = req.user.userid;
+      // @ts-ignore
+      const imgurlpath = req.files.imageurl[0].path;
+      console.log(req.files)
+      console.log(imgurlpath)
+      if(!imgurlpath){
+        throw new ApiError(401, "img not uploaded")
+      }
+
+      const img = await cloudinaryUpload(imgurlpath)
+      
+      if(!img){
+        throw new ApiError(400,"input img required")
+      }
+
+
+
+      const blog = await prisma.blogs.create({
+        data: {
           title: inputs.title,
           description: inputs.description,
-          
-        });
-        if (!validinputs.success) {
-          const msg = validinputs.error.errors.map((item) => item.message);
-          return res.status(404).json({ msg });
-        }
-        // @ts-ignore
-        const userid : number = req.user.userid
-
-        const blog = await prisma.blogs.create({
-            data:{
-                title: inputs.title,
-                description: inputs.description,
-                userid: userid
-
-            }
-        })
-        console.log(blog)
-        res.status(200).json({blog})
-        
+          userid: userid,
+          imageurl: img.url,
+        },
+      });
+      console.log(blog);
+      res.status(200).json({ blog });
     } catch (error) {
         console.group(error)
         res.json({error})
@@ -89,7 +108,8 @@ router.get('/uniqueblog',async(req,res)=>{
     const blog = {
         title: blogobject?.title,
         description: blogobject?.description,
-        upvotes: blogobject?.upvotes
+        upvotes: blogobject?.upvotes,
+        imageurl: blogobject?.imageurl
 
     }
 
@@ -147,15 +167,6 @@ router.post('/update',authvalidation,async(req,res)=>{
     res.json({msg: "error while updating blogs"})
     
   }
-
-
-
-
-
-
-
-
-
 
 })
 

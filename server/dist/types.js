@@ -26,9 +26,10 @@ exports.signininput = zod_1.default.object({
     password: zod_1.default.string().min(6, { message: "password must be 6 or more characters long" }),
 });
 exports.blogsinput = zod_1.default.object({
-    title: zod_1.default.string().min(1, { message: "username of min 1 character" }),
+    title: zod_1.default.string().min(1, { message: "username of min 1 character" }).optional(),
     description: zod_1.default.string().optional(),
     upvotes: zod_1.default.number().optional(),
+    imageurl: zod_1.default.string().optional()
 });
 exports.updateblogsinput = zod_1.default.object({
     title: zod_1.default

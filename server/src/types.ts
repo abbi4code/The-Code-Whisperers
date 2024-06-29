@@ -22,9 +22,10 @@ export const signininput = z.object({
 });
 
 export const blogsinput = z.object({
-  title: z.string().min(1, { message: "username of min 1 character" }),
+  title: z.string().min(1, { message: "username of min 1 character" }).optional(),
   description: z.string().optional(),
   upvotes: z.number().optional(),
+  imageurl: z.string().optional()
 });
 
 
