@@ -1,10 +1,11 @@
 import express from "express"
 import authvalidation from "../middlewares/auth.middleware"
-import { blogsinput, updateblogsinput } from "../types"
+import { updateblogsinput } from "../types"
 import { PrismaClient } from "@prisma/client"
-import ApiError from "../utils/apiError"
-import { error } from "console"
+
+
 import cloudinaryUpload from "../utils/cloudinary"
+import { upload } from "../middlewares/multer.middleware"
 
 
 
@@ -12,42 +13,38 @@ const router = express.Router()
 const prisma = new PrismaClient()
 
 
-router.post('/create',authvalidation,async(req,res)=>{
-    const inputs = req.body
+router.post('/create',authvalidation,upload.fields([{ name: "imageurl", maxCount: 1 }]),async(req,res)=>{
+    const {title,description} = req.body
+   
 
     try {
-      const validinputs = blogsinput.safeParse({
-        title: inputs.title,
-        description: inputs.description,
-        imageurl: inputs.imageurl,
-      });
-      if (!validinputs.success) {
-        const msg = validinputs.error.errors.map((item) => item.message);
-        return res.status(404).json({ msg });
-        // throw new ApiError(404,msg)
-      }
+     
+
+      
       // @ts-ignore
       const userid: number = req.user.userid;
       // @ts-ignore
-      const imgurlpath = req.files.imageurl[0].path;
-      console.log(req.files)
+      const imgurlpath = req.files && req.files.imageurl ? req.files.imageurl[0].path : undefined
+    
       console.log(imgurlpath)
       if(!imgurlpath){
-        throw new ApiError(401, "img not uploaded")
+        // throw new ApiError(401, "img not uploaded")
+        return res.status(404).json({msg: "img not uploaded"})
       }
 
       const img = await cloudinaryUpload(imgurlpath)
       
       if(!img){
-        throw new ApiError(400,"input img required")
+        return res.status(404).json({msg: "input img required"})
+        // throw new ApiError(400,"input img required")
       }
 
 
 
       const blog = await prisma.blogs.create({
         data: {
-          title: inputs.title,
-          description: inputs.description,
+          title:title,
+          description: description,
           userid: userid,
           imageurl: img.url,
         },
@@ -56,7 +53,8 @@ router.post('/create',authvalidation,async(req,res)=>{
       res.status(200).json({ blog });
     } catch (error) {
         console.group(error)
-        res.json({error})
+        
+        res.send(error)
         
     }
 

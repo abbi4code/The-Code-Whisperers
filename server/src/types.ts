@@ -1,5 +1,6 @@
 import z from "zod";
 
+
 export const signupinput = z.object({
   email: z
     .string()
@@ -22,11 +23,11 @@ export const signininput = z.object({
 });
 
 export const blogsinput = z.object({
-  title: z.string().min(1, { message: "username of min 1 character" }).optional(),
+  title: z.string().min(1, { message: "username of min 1 character" }),
   description: z.string().optional(),
   upvotes: z.number().optional(),
-  imageurl: z.string().optional()
 });
+
 
 
 export const updateblogsinput = z.object({

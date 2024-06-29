@@ -35,6 +35,7 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
         if (existuser) {
             return res.status(400).json({ msg: "user already exist" });
+            // throw new ApiError(404,"user already exist")
         }
         const newuser = yield prisma.user.create({
             data: {

@@ -2,6 +2,7 @@ import express from "express"
 import { signininput, signupinput } from "../types"
 import { PrismaClient } from "@prisma/client"
 import jwt from "jsonwebtoken"
+import ApiError from "../utils/apiError"
 
 
 const router = express.Router()
@@ -30,7 +31,9 @@ router.post('/signup',async(req,res)=>{
         }
     })
     if(existuser){
+
         return res.status(400).json({msg: "user already exist"})
+        // throw new ApiError(404,"user already exist")
     }
 
     const newuser = await prisma.user.create({

@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const cloudinary_1 = require("cloudinary");
 const fs_1 = __importDefault(require("fs"));
-const apiError_1 = __importDefault(require("./apiError"));
 cloudinary_1.v2.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
@@ -23,18 +22,22 @@ cloudinary_1.v2.config({
 const cloudinaryUpload = (localfilepath) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!localfilepath) {
-            throw new apiError_1.default(404, "error in local file path");
+            // throw new ApiError(404,"error in local file path")
+            console.log("error in localfilepath");
+            return null;
         }
         const res = yield cloudinary_1.v2.uploader.upload(localfilepath, {
             resource_type: "image",
             allowed_formats: ["jpg", "jpeg", "png", "webp"],
         });
-        console.log("uploaded on cloudinary", res);
+        // console.log("uploaded on cloudinary",res)
+        fs_1.default.unlinkSync(localfilepath);
         return res;
     }
     catch (error) {
         fs_1.default.unlinkSync(localfilepath);
-        throw new apiError_1.default(404, "something went wrong in upload");
+        // throw new ApiError(404,"something went wrong in upload")
+        console.log("something went wrong ");
     }
 });
 exports.default = cloudinaryUpload;
