@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import { HoveredLink, Menu, MenuItem, ProductItem } from "./components/ui/navbar";
 import { cn } from "./components/utils/cn";
 import { useState } from 'react'
+import CreateBlog from './pages/CreateBlog'
 
 function App() {
  
@@ -23,6 +24,7 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/" element={<Home />} />
+          <Route path='/createblog' element={<CreateBlog/>}/>
         </Routes>
       </BrowserRouter>
     </>

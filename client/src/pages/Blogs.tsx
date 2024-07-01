@@ -47,13 +47,30 @@ const Blogs =() => {
             <Pageloader />
             <Pageloader />
             <Pageloader />
+           
           </div>
         ) : (
-          <div className="  h-full w-[60rem]  flex flex-col justify-center items-center  ">
+          <div className="  h-full w-[60rem] flex flex-col justify-center items-center mt-20  ">
             
-            <Blogscomponent/>
-            <Blogscomponent/>
-            <Blogscomponent/>
+            {blogs.map((blog:any) => {
+              const compdate = blog.createAtdate
+              const date = compdate?.split('T')[0]
+              console.log(compdate,date)
+              return (
+                
+                <>
+                  <Blogscomponent
+                    id={blog.id}
+                    username="abhishek"
+                    key={blog.id}
+                    title={blog.title}
+                    description={blog.description}
+                    imgurl={blog.imageurl}
+                    date={date}
+                  />
+                </>
+              );
+            } )}
           </div>
         )}
       </div>

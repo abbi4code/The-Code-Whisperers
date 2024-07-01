@@ -22,7 +22,6 @@ cloudinary_1.v2.config({
 const cloudinaryUpload = (localfilepath) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!localfilepath) {
-            // throw new ApiError(404,"error in local file path")
             console.log("error in localfilepath");
             return null;
         }

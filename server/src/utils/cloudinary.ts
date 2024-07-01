@@ -12,13 +12,13 @@ import ApiError from "./apiError";
     const cloudinaryUpload = async(localfilepath:any)=>{
         try {
             if(!localfilepath){
-                // throw new ApiError(404,"error in local file path")
                 console.log("error in localfilepath")
                 return null
             }
             const res = await cloudinary.uploader.upload(localfilepath, {
               resource_type: "image",
               allowed_formats: ["jpg", "jpeg", "png", "webp"],
+
             });
             // console.log("uploaded on cloudinary",res)
             fs.unlinkSync(localfilepath)

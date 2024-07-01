@@ -24,7 +24,7 @@ router.post('/create',authvalidation,upload.fields([{ name: "imageurl", maxCount
       // @ts-ignore
       const imgurlpath = req.files && req.files.imageurl ? req.files.imageurl[0].path : undefined
     
-      console.log(imgurlpath)
+      console.log("imageurlpath",imgurlpath)
       if(!imgurlpath){
         // throw new ApiError(401, "img not uploaded")
         return res.status(404).json({msg: "img not uploaded"})
