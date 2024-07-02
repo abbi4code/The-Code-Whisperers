@@ -9,6 +9,7 @@ import { HoveredLink, Menu, MenuItem, ProductItem } from "./components/ui/navbar
 import { cn } from "./components/utils/cn";
 import { useState } from 'react'
 import CreateBlog from './pages/CreateBlog'
+import EachBlog from './pages/EachBlog'
 
 function App() {
  
@@ -25,6 +26,7 @@ function App() {
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/" element={<Home />} />
           <Route path='/createblog' element={<CreateBlog/>}/>
+          <Route path='/blog' element={<EachBlog/>}/>
         </Routes>
       </BrowserRouter>
     </>

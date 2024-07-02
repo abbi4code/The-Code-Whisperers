@@ -1,5 +1,6 @@
-//@ts-ignore
+import { backendUrl } from "../config";
 import { CardBody, CardContainer, CardItem } from "./ui/blogcard";
+import { useNavigate,redirect } from "react-router-dom";
 
 interface blogcardprops {
   title: string;
@@ -7,10 +8,13 @@ interface blogcardprops {
   imgurl: string;
   date: number;
   username:string
-  key: string
+  key: string,
+  id: string
 }
-//@ts-ignore
+
+
 export default function BlogCard({
+  id,
   title,
   description,
   imgurl,
@@ -18,11 +22,19 @@ export default function BlogCard({
   username,
   key
 }: blogcardprops) {
+  const navigate = useNavigate()
+
+  const handleOnclick = () =>{
+    navigate(`/blog?blogid=${id}`)
+ 
+    // redirect("/45")
+  }
+  console.log(id)
 
   return (
     <CardContainer className="inter-var " key={key}>
-      <CardBody className=" border-[.2px] border-white/10 relative group/card grid grid-cols-3 dark:hover:shadow-2xl  sm:w-[70rem] h-auto rounded-xl p-6 backdrop-blur-[2px] ">
-        <div className="col-span-2 flex flex-col">
+      <CardBody className=" border-[.2px] border-white/10 relative group/card grid grid-cols-3 dark:hover:shadow-2xl  sm:w-[70rem] h-auto rounded-xl p-6 backdrop-blur-[2px] "  >
+        <div className="col-span-2 flex flex-col" onClick={handleOnclick}>
           <CardItem
             as="div"
             translateZ="30"

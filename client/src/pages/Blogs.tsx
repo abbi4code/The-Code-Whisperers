@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { backendUrl } from "../config";
 import {Pageloader} from '../components/Pgloader'
 import Blogscomponent from '../components/Blogscomponent'
+import { useSearchParams } from "react-router-dom";
 
 
 
 const Blogs =() => {
+  const params = useSearchParams()
 
   const [blogs,setblogs] = useState([])
   const [loader,setloader] = useState(true)
@@ -19,8 +21,12 @@ const Blogs =() => {
       
       try {
         setTimeout(async() => {
-          const res = await axios.get(`${backendUrl}/blog/bulk`);
-          console.log(res.data.bulk);
+          const res = await axios.get(`${backendUrl}/blog/bulk`,{
+            headers:{
+              Authorization: "Bearer " + localStorage.getItem("token")
+            }
+          });
+          // console.log(res.data.bulk);
           setblogs(res.data.bulk);
           setloader(false);
           
@@ -55,7 +61,7 @@ const Blogs =() => {
             {blogs.map((blog:any) => {
               const compdate = blog.createAtdate
               const date = compdate?.split('T')[0]
-              console.log(compdate,date)
+              console.log()
               return (
                 
                 <>

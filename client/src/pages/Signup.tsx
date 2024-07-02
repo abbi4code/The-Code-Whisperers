@@ -130,8 +130,10 @@ const [Signupinput, useSignupinput] = useState<Signupinput>({
               console.log(data)
               if (data) {
                 localStorage.setItem("token", data.token);
+                
                 navigate("/");
               } else {
+                //@ts-ignore
                 return toast.error("Invalid Credentials",errorMsg)
 
                 // console.log(res.data.msg);

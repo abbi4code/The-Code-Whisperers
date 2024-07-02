@@ -58,13 +58,16 @@ router.post('/create',authvalidation,upload.fields([{ name: "imageurl", maxCount
 
 })
 
-router.get('/bulk', async(req,res)=>{
+router.get('/bulk', authvalidation,async(req,res)=>{
     const bulk = await prisma.blogs.findMany()
+    //@ts-ignore
+    const id = req.user.userid
+    console.log(id)
 
     return res.status(200).json({bulk})
 })
 
-router.get('/myblogs',async(req,res)=>{
+router.get('/myblogs',authvalidation,async(req,res)=>{
     //@ts-ignore
     const id = parseInt(req.query.id);
     if(!id){
@@ -86,7 +89,7 @@ router.get('/myblogs',async(req,res)=>{
 
 //unique blog
 
-router.get('/uniqueblog',async(req,res)=>{
+router.get('/uniqueblog',authvalidation,async(req,res)=>{
     const blogid = req.query.blogid
     if(!blogid){
         res.status(404).json({msg: "blog id not provided"})

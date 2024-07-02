@@ -53,11 +53,14 @@ router.post('/create', auth_middleware_1.default, multer_middleware_1.upload.fie
         res.send(error);
     }
 }));
-router.get('/bulk', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/bulk', auth_middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const bulk = yield prisma.blogs.findMany();
+    //@ts-ignore
+    const id = req.user.userid;
+    console.log(id);
     return res.status(200).json({ bulk });
 }));
-router.get('/myblogs', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/myblogs', auth_middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //@ts-ignore
     const id = parseInt(req.query.id);
     if (!id) {
@@ -74,7 +77,7 @@ router.get('/myblogs', (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.json({ blogs });
 }));
 //unique blog
-router.get('/uniqueblog', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/uniqueblog', auth_middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const blogid = req.query.blogid;
     if (!blogid) {
         res.status(404).json({ msg: "blog id not provided" });
