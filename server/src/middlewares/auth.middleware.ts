@@ -10,7 +10,7 @@ const authvalidation =async(req:Request,res:Response,next:NextFunction)=>{
     
    try {
      const validtoken = token?.split(" ")[1];
-     console.log(validtoken)
+    //  console.log(validtoken)
      if (!validtoken) {
        return res.status(404).json({msg: "token not provided"})
      }
@@ -19,7 +19,7 @@ const authvalidation =async(req:Request,res:Response,next:NextFunction)=>{
      if(!decoded){
         return res.status(404).json({msg: "invalid token"})
      }
-     console.log(decoded)
+    //  console.log(decoded)
 
 
      //@ts-ignore

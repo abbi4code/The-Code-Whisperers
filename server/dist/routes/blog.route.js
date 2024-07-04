@@ -91,7 +91,15 @@ router.get('/uniqueblog', auth_middleware_1.default, (req, res) => __awaiter(voi
     if (!blogobject) {
         res.status(404).json({ msg: "invalid id" });
     }
+    // console.log("blogobj",blogobject)
+    const user = yield prisma.user.findUnique({
+        where: {
+            id: blogobject === null || blogobject === void 0 ? void 0 : blogobject.userid
+        }
+    });
+    // console.log("user",user)
     const blog = {
+        username: user === null || user === void 0 ? void 0 : user.firstname,
         title: blogobject === null || blogobject === void 0 ? void 0 : blogobject.title,
         description: blogobject === null || blogobject === void 0 ? void 0 : blogobject.description,
         upvotes: blogobject === null || blogobject === void 0 ? void 0 : blogobject.upvotes,

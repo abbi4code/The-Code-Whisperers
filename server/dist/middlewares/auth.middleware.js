@@ -18,7 +18,7 @@ const authvalidation = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     const token = req.headers.authorization;
     try {
         const validtoken = token === null || token === void 0 ? void 0 : token.split(" ")[1];
-        console.log(validtoken);
+        //  console.log(validtoken)
         if (!validtoken) {
             return res.status(404).json({ msg: "token not provided" });
         }
@@ -26,7 +26,7 @@ const authvalidation = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         if (!decoded) {
             return res.status(404).json({ msg: "invalid token" });
         }
-        console.log(decoded);
+        //  console.log(decoded)
         //@ts-ignore
         req.user = decoded;
         next();

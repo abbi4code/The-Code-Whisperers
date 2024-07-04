@@ -60,7 +60,7 @@ export default function CreateBlog() {
           />
           <textarea
             placeholder="Title"
-            className="w-full h-[20%]  text-[#F1E5D1] bg-transparent resize-none outline-none font-bold text-4xl overflow-y-hidden"
+            className="w-full h-[20%]  text-[#F1E5D1] bg-transparent no-scrollbar outline-none font-bold text-4xl overflow-y-scroll"
             onChange={(e: any) =>
               setinput((c) => ({ ...c, title: e.target.value }))
             }
@@ -68,7 +68,7 @@ export default function CreateBlog() {
 
           <textarea
             placeholder="Description"
-            className="w-full h-[80%]  text-[#F1E5D1] bg-transparent outline-none resize-none font-bold text-lg overflow-y-hidden "
+            className="w-full  text-[#F1E5D1] bg-transparent outline-none no-scrollbar h-[80%] overflow-y-scroll font-bold text-lg "
             onChange={(e: any) =>
               setinput((c) => ({ ...c, description: e.target.value }))
             }
