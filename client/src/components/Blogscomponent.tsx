@@ -34,7 +34,7 @@ export default function BlogCard({
   return (
     <CardContainer className="inter-var " key={key}>
       <CardBody className=" border-[.2px] border-white/10 relative group/card grid grid-cols-3 dark:hover:shadow-2xl  sm:w-[70rem] h-auto rounded-xl p-6 backdrop-blur-[2px] "  >
-        <div className="col-span-2 flex flex-col" onClick={handleOnclick}>
+        <div className="col-span-2 flex flex-col cursor-pointer" onClick={handleOnclick} >
           <CardItem
             as="div"
             translateZ="30"
@@ -64,7 +64,7 @@ export default function BlogCard({
             {description}
           </CardItem>
         </div>
-        <CardItem translateZ="100" className="w-full col-span-1 mt-4">
+        <CardItem translateZ="100" className="w-full col-span-1 mt-4 cursor-pointer">
           <Image
             src={imgurl}
             className="h-[200px] w-[300px] rounded-lg object-cover"

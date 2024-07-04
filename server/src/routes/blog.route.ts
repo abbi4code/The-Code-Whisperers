@@ -103,7 +103,7 @@ router.get('/uniqueblog',authvalidation,async(req,res)=>{
     if (!blogobject) {
       res.status(404).json({ msg: "invalid id" });
     }
-    // console.log("blogobj",blogobject)
+    console.log("blogobj",blogobject)
     const user = await prisma.user.findUnique({
       where:{
         id: blogobject?.userid
@@ -112,6 +112,8 @@ router.get('/uniqueblog',authvalidation,async(req,res)=>{
     // console.log("user",user)
 
     const blog = {
+      createddata: blogobject?.createAtdate,
+      createdtime: blogobject?.createAttime,
         username: user?.firstname,
         title: blogobject?.title,
         description: blogobject?.description,

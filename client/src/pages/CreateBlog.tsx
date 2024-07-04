@@ -6,6 +6,7 @@ import { backendUrl } from "../config";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+
 interface inputprops {
   title: string;
   description: string;
@@ -18,6 +19,7 @@ export default function CreateBlog() {
     description: "",
     imageurl: "",
   });
+  const navigate = useNavigate()
 
   console.log(input);
 
@@ -41,6 +43,9 @@ export default function CreateBlog() {
         }
       );
       console.log(res);
+      navigate("/blogs")
+
+
     }
 
 
