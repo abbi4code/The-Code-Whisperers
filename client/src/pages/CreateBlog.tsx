@@ -43,6 +43,7 @@ export default function CreateBlog() {
         }
       );
       console.log(res);
+      
       navigate("/blogs")
 
 

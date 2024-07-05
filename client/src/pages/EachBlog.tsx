@@ -66,7 +66,7 @@ export default function EachBlog() {
 
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-background bg-black">
+    <div className="relative min-h-screen w-full  bg-background bg-black no-scrollbar overflow-y-hidden">
       <RetroGrid />
 
       <div className="relative z-10 flex flex-col justify-center h-full w-full  ">
@@ -82,7 +82,9 @@ export default function EachBlog() {
               <h1 className="font-medium text-lg">{blogsinput.username}</h1>
               <div className="flex gap-1 justify-center items-center">
                 <h2 className="font-medium text-lg">{date}</h2>
-                <h2 className="font-medium text-sm  border-[1px] border-white rounded-xl border-opacity-40 px-1.5 py-0.5">{minToread} min to read</h2>
+                <h2 className="font-medium text-sm  border-[1px] border-white rounded-xl border-opacity-40 px-1.5 py-0.5">
+                  {minToread} min to read
+                </h2>
               </div>
             </div>
           </div>
@@ -96,7 +98,7 @@ export default function EachBlog() {
           />
         </div>
         <div className="h-max max-w-full font-bold text-xl md:text-3xl text-[#F1E5D1] px-5 flex justify-center items-center">
-          <div className="max-w-[80rem] mt-6 text-[#F1E5D1] ">
+          <div className="max-w-[80rem] mt-6 mb-6 text-[#F1E5D1] ">
             {blogsinput.description}
           </div>
         </div>
