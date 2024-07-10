@@ -1,24 +1,28 @@
 import RetroGrid from "../components/effects/retrobg";
 import GradualSpacing from "../components/effects/gradualspacing";
 
+
 import { EvervaultCard, Icon } from "../components/ui/card";
+import { useNavigate } from "react-router-dom";
+import { on } from "events";
 
 
 const Home = () => {
+ 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-background bg-black">
       <RetroGrid />
 
+
       <div className="relative z-10 grid grid-cols-3 h-full w-full">
+        <Navbar />
         <div className="flex items-center justify-center  bg-opacity-20 p-20 md:shadow-xl col-span-2 flex-col">
-         
-            <GradualSpacing
-              className="font-display text-center text-4xl font-bold tracking-tighter text-black dark:text-white md:text-7xl md:leading-[5rem]"
-              text="Welcome Coders"
-              duration={0.6}
-            />
-            
-       
+          <GradualSpacing
+            className="font-display text-center text-4xl font-bold tracking-tighter text-black dark:text-white md:text-7xl md:leading-[5rem]"
+            text="Welcome Coders"
+            duration={0.6}
+          />
+
           <p className="text-white">
             Share Your Coding Journey and Discover New Insights
           </p>
@@ -29,7 +33,7 @@ const Home = () => {
           </p>
         </div>
         <div className="flex items-center justify-center bg-black bg-opacity-20 p-20 md:shadow-xl col-span-1">
-          <Card text={"#dev"}/>
+          <Card text={"#dev"} />
         </div>
       </div>
     </div>
@@ -51,6 +55,47 @@ export function Card({text}) {
      
     </div>
   );
+}
+
+function Navbar(){
+  const navigate = useNavigate()
+
+  const token = localStorage.getItem("token")
+
+  const logout = () =>{
+    localStorage.clear()
+    window.location.reload()
+  }
+
+   const navItems = [
+     {
+       name: "All blogs",
+       onClick: ()=>{token ? navigate("/blogs") : navigate("/signin")}
+  
+     },
+     {
+       name: "Create Blog",
+       onClick: ()=>{token ? navigate("/createblog") : navigate("/signin");}
+   
+     },
+     {
+       name: token ? "Signout" : "Signin",
+        onClick: ()=>{token ? logout() : navigate("/signin");}
+       
+     },
+   ];
+  return (
+    <div className="bg-black w-full h-16 flex  items-center absolute top-2 justify-center px-10">
+      <div className="flex  min-w-[40rem] bg-[#0f1115] justify-around border gap-4 rounded-xl px-3 py-2 border-white">
+        <h1 className="font-extrabold font-sans">The Code Whisperers</h1>
+        {navItems.map((item) => (
+          <h1 className="font-bold text-xl  text-white cursor-pointer" onClick={item.onClick}>{item.name}</h1>
+        ))}
+
+      </div>
+    </div>
+  );
+
 }
 
 // export function Icons() {

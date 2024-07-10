@@ -33,8 +33,11 @@ export default function BlogCard({
 
   return (
     <CardContainer className="inter-var " key={key}>
-      <CardBody className=" border-[.2px] border-white/10 relative group/card grid grid-cols-3 dark:hover:shadow-2xl  sm:w-[70rem] h-auto rounded-xl p-6 backdrop-blur-[2px] "  >
-        <div className="col-span-2 flex flex-col cursor-pointer" onClick={handleOnclick} >
+      <CardBody className=" border-[.2px] border-white/10 relative group/card grid grid-cols-3 dark:hover:shadow-2xl  sm:w-[70rem] h-auto rounded-xl p-6 backdrop-blur-[2px] ">
+        <div
+          className="col-span-2 flex flex-col cursor-pointer"
+          onClick={handleOnclick}
+        >
           <CardItem
             as="div"
             translateZ="30"
@@ -61,10 +64,19 @@ export default function BlogCard({
             translateZ="30"
             className=" text-sm max-w-sm mt-2 text-neutral-300"
           >
-            {description}
+            {description.length > 253 ? (
+              <>
+                {description.slice(0,220)} <h1 className="text-sm font-bold">See More</h1>
+              </>
+            ) : (
+              description
+            )}
           </CardItem>
         </div>
-        <CardItem translateZ="100" className="w-full col-span-1 mt-4 cursor-pointer">
+        <CardItem
+          translateZ="100"
+          className="w-full col-span-1 mt-4 cursor-pointer"
+        >
           <Image
             src={imgurl}
             className="h-[200px] w-[300px] rounded-lg object-cover"
