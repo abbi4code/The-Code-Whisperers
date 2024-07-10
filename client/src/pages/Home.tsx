@@ -14,39 +14,46 @@ const Home = () => {
     <div className="relative h-screen w-full overflow-hidden bg-background bg-black">
       <RetroGrid />
 
-      <Navbar />
       <div className="relative z-10 flex flex-col h-full w-full">
+      <Navbar />
         <div className="flex items-center gap-14 justify-center mt-20 bg-opacity-20 p-20 md:shadow-xl  flex-col">
           <GradualSpacing
-            className="font-display text-center text-[7rem] font-bold tracking-tighter text-black dark:text-white  md:leading-[5rem]"
+            className="font-display text-center text-[3rem] sm:text-[5rem] lg:text-[7rem] font-bold tracking-tighter text-black dark:text-white  md:leading-[5rem]"
             text="Welcome Coders"
             duration={0.6}
           />
 
           <div className="flex flex-col gap-2 mt-4 justify-center items-center font-bold text-2xl">
-            <p className="text-white ">
-              Share Your Coding Journey and Discover New Insights
+            <p className="text-white text-center">
+              <span className="bg-green-600 rounded-lg border  border-black px-1 py-1">
+                Share Your Coding
+              </span>{" "}
+              Journey and Discover New Insights
             </p>
-            <p className="text-white text-center text-lg">
+            <p className="text-white text-center text-sm sm:text-lg">
               Join our community of passionate coders. Share your experiences,
               learn from others, and stay updated with the latest trends in
               coding.
             </p>
           </div>
         </div>
-        <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
-          <Marquee pauseOnHover className="[--duration:20s]">
+        <div className="relative flex h-max min-w-full flex-col items-center p-4 justify-center text-white overflow-hidden rounded-lg bg-background md:shadow-xl">
+          <Marquee
+            pauseOnHover
+            repeat={4}
+            className="[--duration:20s] text-2xl h-[10rem]"
+          >
             {firstRow.map((review) => (
               <ReviewCard key={review.username} {...review} />
             ))}
           </Marquee>
-          <Marquee reverse pauseOnHover className="[--duration:20s]">
+          <Marquee reverse pauseOnHover className="[--duration:20s] h-[10rem]">
             {secondRow.map((review) => (
               <ReviewCard key={review.username} {...review} />
             ))}
           </Marquee>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-background"></div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-background"></div>
         </div>
       </div>
     </div>
@@ -90,66 +97,68 @@ function Navbar(){
      },
    ];
   return (
-    <div className="bg-black w-full h-16 flex  items-center absolute top-2 justify-center px-10">
-      <div className="flex  min-w-[40rem] bg-[#0f1115] justify-around items-center border gap-4 rounded-xl px-3 py-2 border-white">
-        <h1 className="font-extrabold font-sans text-center mr-5 text-[#F6D776] text-3xl">
+    <div className="bg-black w-full  h-16 flex items-center absolute top-2 justify-center px-10">
+      <div className="flex  w-max xl:min-w-[40rem] bg-[#0f1115] justify-around items-center border gap-1 xl:gap-4 rounded-xl px-3 py-2 border-white">
+        <h1 className="font-extrabold font-sans text-center mr-5 text-[#F6D776] text-lg xl:text-xl sm:text-3xl">
           The Code Whisperers
         </h1>
-        {navItems.map((item) => (
-          <h1
-            className={`font-bold text-xl  text-white cursor-pointer ${item.className}`}
-            onClick={item.onClick}
-          >
-            {item.name}
-          </h1>
-        ))}
+        <div className="flex gap-2 sm:gap-5 justify-center items-center">
+          {navItems.map((item) => (
+            <h1
+              className={`font-bold text-sm xl:text-md sm:text-xl  text-white cursor-pointer ${item.className}`}
+              onClick={item.onClick}
+            >
+              {item.name}
+            </h1>
+          ))}
+        </div>
       </div>
     </div>
   );
 
 }
 
-const reviews = [
+const reponses = [
   {
-    name: "Jack",
-    username: "@jack",
+    name: "Chunnu",
+    username: "@chunnu",
     body: "I've never seen anything like this before. It's amazing. I love it.",
     img: "https://avatar.vercel.sh/jack",
   },
   {
-    name: "Jill",
-    username: "@jill",
+    name: "Abhinav",
+    username: "@ginger",
     body: "I don't know what to say. I'm speechless. This is amazing.",
     img: "https://avatar.vercel.sh/jill",
   },
   {
-    name: "John",
-    username: "@john",
-    body: "I'm at a loss for words. This is amazing. I love it.",
+    name: "Rohit",
+    username: "@shubham",
+    body: "From beginner to expert, this blog caters to all. It's an essential bookmark for any programmer.",
     img: "https://avatar.vercel.sh/john",
   },
   {
-    name: "Jane",
-    username: "@jane",
-    body: "I'm at a loss for words. This is amazing. I love it.",
+    name: "Masum",
+    username: "@usum",
+    body: "This blog has transformed my coding journey. The practical tips and real-world experiences are unmatched.",
     img: "https://avatar.vercel.sh/jane",
   },
   {
-    name: "Jenny",
-    username: "@jenny",
-    body: "I'm at a loss for words. This is amazing. I love it.",
+    name: "Uday",
+    username: "@disha",
+    body: "This blog has transformed my coding journey. The practical tips and real-world experiences are unmatched",
     img: "https://avatar.vercel.sh/jenny",
   },
   {
-    name: "James",
-    username: "@james",
-    body: "I'm at a loss for words. This is amazing. I love it.",
+    name: "Piyush",
+    username: "@pnr",
+    body: "Absolutely love the community here! The blog posts are not only informative but also engaging and relatable.",
     img: "https://avatar.vercel.sh/james",
   },
 ];
 
-const firstRow = reviews.slice(0, reviews.length / 2);
-const secondRow = reviews.slice(reviews.length / 2);
+const firstRow = reponses.slice(0, reponses.length / 2);
+const secondRow = reponses.slice(reponses.length / 2);
 
 const ReviewCard = ({
   img,
@@ -166,9 +175,9 @@ const ReviewCard = ({
     <figure
       className={cn(
         "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
-        // light styles
+
         "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
-        // dark styles
+
         "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
       )}
     >
@@ -186,11 +195,5 @@ const ReviewCard = ({
   );
 };
 
-// export function Icons() {
-//   return (
-//     <div className="relative flex h-full w-full max-w-[32rem] items-center justify-center overflow-hidden rounded-lg border bg-background px-20 pb-20 pt-8 ">
-//       <IconCloud iconSlugs={slugs} />
-//     </div>
-//   );
-// }
+
 

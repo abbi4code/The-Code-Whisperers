@@ -84,21 +84,37 @@ export default function CreateBlog() {
     </div>
   );
 }
-function Navbar({onClick}:{onClick:any}) {
+function Navbar({onClick}:{onClick:()=>void}) {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   return (
-    <div className="w-80 rounded-3xl px-2 py-3 font-bold text-xl border flex justify-around border-white text-white mt-4">
-      <img
-        src={title}
-        className="w-[50px] h-[50px] rounded-full mix-blend-multiply"
-        onClick={() => navigate("/")}
-      />
-      <div className="flex gap-2 justify-center items-center">
-        
-       <button className="rounded-xl px-3 py-2 font-bold text-lg border border-slate-400 bg-transparent" onClick={onClick}>
-        Publish
-       </button>
-        <div className="rounded-full px-2 py-1 border border-white">A</div>
+    <div className="w-full l px-2 py-3 font-bold text-xl gap-5 flex justify-around text-white mt-4">
+      <div className="w-[30rem] flex justify-between py-3 px-3  items-center gap-5 border border-white rounded-3xl">
+        <img
+          src={title}
+          className="w-[50px] h-[50px] rounded-full mix-blend-multiply"
+          onClick={() => navigate("/")}
+        />
+        <div className="flex gap-2 justify-center items-center">
+          <button
+            className="rounded-xl px-3 py-2 font-bold text-lg border border-slate-400 bg-transparent"
+            onClick={() => navigate("/blogs")}
+          >
+            All Blogs
+          </button>
+          <button
+            className="rounded-xl px-3 py-2 font-bold text-lg border border-slate-400 bg-transparent"
+            onClick={onClick}
+          >
+            Publish
+          </button>
+          <div
+            className="rounded-full px-1 py-1 border h-[50px] hover:text-4xl transition ease-in-out hover:bg-transparent hover:text-slate-300 text-center w-[50px] flex items-center justify-center cursor-pointer border-white"
+            onClick={() => navigate("/")}
+          >
+            A
+          </div>
+        </div>
       </div>
     </div>
   );
