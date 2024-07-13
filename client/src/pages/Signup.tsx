@@ -1,5 +1,5 @@
 import ShineBorder from "../components/effects/shineborder";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { cn } from "../components/utils/cn";
@@ -8,7 +8,7 @@ import {backendUrl} from "../config"
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { errorMsg, successMsg, warningMsg } from "../utils/utils";
+
 
 interface Signupinput{
     email: string,
@@ -44,10 +44,17 @@ const [Signupinput, useSignupinput] = useState<Signupinput>({
   firstname: "",
   lastname: "",
 });
+console.log(Signupinput)
+
+const handlesubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  console.log("Form submitted");
+}
+
 
   return (
     <div className="relative h-screen w-full bg-black flex justify-center items-center">
-      <ToastContainer />
+     <ToastContainer/>
       <div className="absolute bottom-0 left-0 right-0 top-0 flex justify-center items-center bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       <ShineBorder
         className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black"
@@ -63,7 +70,7 @@ const [Signupinput, useSignupinput] = useState<Signupinput>({
           </Link>
         </p>
 
-        <form className="mt-20" >
+        <form className="mt-20" onSubmit={handlesubmit}>
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4 ">
             <LabelInputContainer>
               <Label htmlFor="firstname">First name</Label>
@@ -113,32 +120,37 @@ const [Signupinput, useSignupinput] = useState<Signupinput>({
 
           <button
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-        
-            onClick={async () => {
-              if(!Signupinput.email  || !Signupinput.password  || !Signupinput.firstname || !Signupinput.lastname){
-                //@ts-ignore
-                return toast.error("You missed some fields.", errorMsg);
-              }
-              const res = await axios.post(`${serverurl}/user/signup`, {
+            type="submit"
+            onClick={async()=>{
+             try {
+              const res = await axios.post(`${serverurl}/user/signup`,{
                 email: Signupinput.email,
                 password: Signupinput.password,
                 firstname: Signupinput.firstname,
-                lastname: Signupinput.lastname,
-              });
-             
-              const data = res.data;
-              console.log(data)
-              if (data) {
-                localStorage.setItem("token", data.token);
-                
-                navigate("/");
-              } else {
-                //@ts-ignore
-                return toast.error("Invalid Credentials",errorMsg)
-
-                // console.log(res.data.msg);
+                lastname: Signupinput.lastname
+              })
+              const token = res.data.token
+              if(token){
+                localStorage.setItem("token", token)
+                toast.success<toastMsgprops>(res.data.msg,{position: "top-right",theme:"dark",autoClose:2000})
+                setTimeout(() => {
+                  navigate("/");
+                  
+                }, 1000);
+              }else if(res.data.status === 404){
+                toast.warning<toastMsgprops>(res.data.msg,{position: "top-right",theme:"dark",autoClose:2000})
+                console.log(res.data.msg)
               }
+              
+             } catch (error: any) {
+              console.log(error)
+              
+              toast.error<toastMsgprops>(error.response.data.msg,{position: "top-right",theme:"dark",autoClose:2000})
+              
+             }
             }}
+           
+           
           >
             Sign up &rarr;
             <BottomGradient />
@@ -147,6 +159,7 @@ const [Signupinput, useSignupinput] = useState<Signupinput>({
           <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-20 h-[1px] w-full" />
         </form>
       </ShineBorder>
+      
     </div>
   );
 }

@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 import { backendUrl } from "../config";
 import {Pageloader} from '../components/Pgloader'
 import Blogscomponent from '../components/Blogscomponent'
-import { useSearchParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 
 
 const Blogs =() => {
-  const params = useSearchParams()
 
   const [blogs,setblogs] = useState([])
   const [loader,setloader] = useState(true)
@@ -47,7 +46,8 @@ const Blogs =() => {
     <div className="relative min-h-screen w-full overflow-hidden bg-background bg-black">
       <RetroGrid />
 
-      <div className="relative z-10 flex justify-center items-center h-full w-full text-white">
+      <div className="relative z-10 flex flex-col justify-center items-center h-full w-full text-white">
+        <Navbar />
         {loader ? (
           <div className="h-full w-[60rem] flex gap-5 flex-col justify-center items-center mt-20">
             <Pageloader />
@@ -56,18 +56,24 @@ const Blogs =() => {
            
           </div>
         ) : (
-          <div className="  h-full w-[60rem] flex flex-col justify-center items-center mt-20  ">
+          <div className="  h-full w-[60rem] flex flex-col gap-5 justify-center items-center mt-20  ">
             
-            {blogs.map((blog:any) => {
+            {blogs.map((blog: any) => {
               const compdate = blog.createAtdate
               const date = compdate?.split('T')[0]
               console.log()
+
+
+              
+
+
               return (
+               
                 
                 <>
                   <Blogscomponent
                     id={blog.id}
-                    username="abhishek"
+                    username={blog.user?.firstname}
                     key={blog.id}
                     title={blog.title}
                     description={blog.description}
@@ -85,6 +91,30 @@ const Blogs =() => {
 }
 
 export default Blogs
+
+
+export function Navbar(){
+  const navigate = useNavigate();
+
+
+  return (
+    <div className="flex w-full  sticky top-7  text-slate-200 justify-center">
+      <nav className=" w-[25rem] sm:min-w-[40rem] flex justify-evenly text-xl backdrop-blur-sm items-center rounded-xl gap-5 font-bold px-3 py-2 border border-slate-400">
+        <h1 className="hover:text-[#F1E5D1] backdrop-filter cursor-pointer" onClick={()=>{navigate('/')}}>
+          Home
+        </h1>
+        <h1 className="hover:text-[#F1E5D1] backdrop-filter cursor-pointer" onClick={()=>{
+          window.location.href = "https://x.com/Exynos01003024";
+        }}>
+          Follow me
+        </h1>
+        <h1 className="hover:text-[#F1E5D1] backdrop-filter cursor-pointer" onClick={()=>{navigate('/createblog')}}>
+          Create Blog
+        </h1>
+      </nav>
+    </div>
+  );
+}
 
 
 

@@ -1,10 +1,20 @@
 import RetroGrid from "../components/effects/retrobg";
 import title from "../assets/logo.png.webp";
 import { useNavigate } from "react-router-dom";
-// import { Button } from "../components/ui/movborder";
 import { backendUrl } from "../config";
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import { CSSProperties } from "react";
+import SyncLoader from "react-spinners/SyncLoader";
+
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
+
 
 
 interface inputprops {
@@ -20,6 +30,7 @@ export default function CreateBlog() {
     imageurl: "",
   });
   const navigate = useNavigate()
+  const [loader, setloader] = useState(false);
 
   console.log(input);
 
@@ -32,61 +43,91 @@ export default function CreateBlog() {
         formdata.append("imageurl", input.imageurl)
 
 
-      const res = await axios.post(
-        `${backendUrl}/blog/create`,formdata
-       ,
-        {
+      try {
+        setloader(true);
+        const res = await axios.post(`${backendUrl}/blog/create`, formdata, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
+        });
+        console.log(res);
+
+        if (res.status === 200) {
+          console.log("blog created");
+          toast.success("Blog created successfully", { position: "top-right", theme:"dark",autoClose:2000 });
+          setTimeout(() => {
+            setloader(false);
+            navigate("/blogs")
+          }, 1000);
         }
-      );
-      console.log(res);
-      
-      navigate("/blogs")
+        
+      } catch (error) {
+        toast.error("Fill all the spaces", { position: "top-right",theme:"dark",autoClose:2000 });
+        
+      }
 
 
     }
 
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-background bg-black">
+    <div className="relative min-h-screen w-full overflow-hidden bg-background bg-black">
+      <ToastContainer />
       <RetroGrid />
 
-      <div className="relative z-10 flex-col  flex items-center justify-center h-full w-full">
-        <Navbar onClick={handleimg} />
-        <div className="flex md:shadow-xl mt-20 flex-col w-[20rem] md:w-[55rem] h-full  bg-transparent ">
-          <input
-            className=" w-full text-sm text-gray-400 bg-transparent rounded-lg cursor-pointer focus:outline-none mb-4"
-            type="file"
-            onChange={(e: any) =>
-              setinput((c) => ({ ...c, imageurl: e.target.files[0] }))
-            }
-          />
-          <textarea
-            placeholder="Title"
-            className="w-full h-[20%]  text-[#F1E5D1] bg-transparent no-scrollbar outline-none font-bold text-4xl overflow-y-scroll"
-            onChange={(e: any) =>
-              setinput((c) => ({ ...c, title: e.target.value }))
-            }
-          />
-
-          <textarea
-            placeholder="Description"
-            className="w-full  text-[#F1E5D1] bg-transparent outline-none no-scrollbar h-[80%] overflow-y-scroll font-bold text-lg "
-            onChange={(e: any) =>
-              setinput((c) => ({ ...c, description: e.target.value }))
-            }
+      {loader ? (
+        <div className="h-full justify-center flex w-full items-center">
+          <SyncLoader
+            color="#ffffff"
+            loading={loader}
+            cssOverride={override}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
           />
         </div>
-      </div>
+      ) : (
+        <div className="relative z-10 flex-col  flex items-center justify-center h-full w-full">
+          <Navbar onClick={handleimg} />
+          <div className="flex md:shadow-xl mt-20 flex-col w-[20rem] md:w-[55rem] h-full  bg-transparent ">
+            <input
+              className=" w-full text-sm text-gray-400 bg-transparent rounded-lg cursor-pointer focus:outline-none mb-4"
+              type="file"
+              onChange={(e: any) =>
+                setinput((c) => ({ ...c, imageurl: e.target.files[0] }))
+              }
+            />
+            <textarea
+              placeholder="Title"
+              className="w-full h-[20vh]  text-[#F1E5D1] bg-transparent no-scrollbar outline-none font-bold text-4xl overflow-y-scroll"
+              onChange={(e: any) =>
+                setinput((c) => ({ ...c, title: e.target.value }))
+              }
+            />
+
+            <textarea
+              placeholder="Description"
+              className="w-full  text-[#F1E5D1] bg-transparent outline-none no-scrollbar min-h-[80vh] overflow-y-scroll font-bold text-lg "
+              onChange={(e: any) =>
+                setinput((c) => ({
+                  ...c,
+                  description: e.target.value.replace(/\n/g, "<br />"),
+                }))
+              }
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 function Navbar({onClick}:{onClick:()=>void}) {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  if(!token){
+    navigate("/signin")
+  }
   return (
     <div className="w-full l px-2 py-3 font-bold text-xl gap-5 flex justify-around text-white mt-4">
       <div className="w-[30rem] flex justify-between py-3 px-3  items-center gap-5 border border-white rounded-3xl">
@@ -119,3 +160,5 @@ function Navbar({onClick}:{onClick:()=>void}) {
     </div>
   );
 }
+
+

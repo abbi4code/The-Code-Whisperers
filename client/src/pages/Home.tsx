@@ -98,14 +98,14 @@ function Navbar(){
    ];
   return (
     <div className="bg-black w-full  h-16 flex items-center absolute top-2 justify-center px-10">
-      <div className="flex  w-max xl:min-w-[40rem] bg-[#0f1115] justify-around items-center border gap-1 xl:gap-4 rounded-xl px-3 py-2 border-white">
-        <h1 className="font-extrabold font-sans text-center mr-5 text-[#F6D776] text-lg xl:text-xl sm:text-3xl">
+      <div className="flex  w-full  xl:min-w-[40rem] bg-[#0f1115] justify-around items-center border  md:gap-4 rounded-xl px-1 sm:px-3 py-2 border-white">
+        <h1 className="font-extrabold font-sans text-center mr-3 sm:mr-5 text-[#F6D776] text-md  sm:text-xl md:text-3xl">
           The Code Whisperers
         </h1>
-        <div className="flex gap-2 sm:gap-5 justify-center items-center">
+        <div className="flex gap-3 sm:gap-5 justify-center items-center">
           {navItems.map((item) => (
             <h1
-              className={`font-bold text-sm xl:text-md sm:text-xl  text-white cursor-pointer ${item.className}`}
+              className={`font-bold text-xs xl:text-md sm:text-xl  text-white cursor-pointer ${item.className}`}
               onClick={item.onClick}
             >
               {item.name}

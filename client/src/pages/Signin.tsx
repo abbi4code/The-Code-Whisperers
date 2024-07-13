@@ -6,6 +6,7 @@ import { cn } from "../components/utils/cn";
 import { Link, useNavigate } from "react-router-dom";
 import { backendUrl } from "../config";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 interface Signininput {
   email: string;
   password: string;
@@ -29,6 +30,7 @@ const [Signininput, useSignininput] = useState<Signininput>({
   
   return (
     <div className="relative h-screen w-full bg-black flex justify-center items-center">
+      <ToastContainer />
       <div className="absolute bottom-0 left-0 right-0 top-0 flex justify-center items-center bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       <ShineBorder
         className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black"
@@ -72,18 +74,29 @@ const [Signininput, useSignininput] = useState<Signininput>({
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
             type="submit"
             onClick={async () => {
-              const res = await axios.post(`${serverurl}/user/signin`, {
-                email: Signininput.email,
-                password: Signininput.password,
-                
-              });
-              const token = res.data.token;
-              if (token) {
-                localStorage.setItem("token", token);
-                navigate("/");
-              } else {
-                console.log(res.data.msg);
-              }
+             try {
+               const res = await axios.post(`${serverurl}/user/signin`, {
+                 email: Signininput.email,
+                 password: Signininput.password,
+               });
+               const token = res.data.token;
+               if (token) {
+                 localStorage.setItem("token", token);
+                toast.success(res.data.msg,{position:"top-right",theme:"dark",autoClose:2000})
+                 setTimeout(() => {
+                  navigate("/");
+                  
+                 }, 1000);
+               } else {
+                toast.error(res.data.msg,{position:"top-right",theme:"dark",autoClose:2000})
+                 console.log(res.data.msg);
+               }
+              
+             } catch (error: any) {
+              console.log(error)
+              toast.error(error.response.data.msg,{position:"top-right",theme:"dark",autoClose:2000})
+              
+             }
             }}
           >
             Sign in &rarr;
