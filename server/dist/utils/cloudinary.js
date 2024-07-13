@@ -29,13 +29,11 @@ const cloudinaryUpload = (localfilepath) => __awaiter(void 0, void 0, void 0, fu
             resource_type: "image",
             allowed_formats: ["jpg", "jpeg", "png", "webp"],
         });
-        // console.log("uploaded on cloudinary",res)
         fs_1.default.unlinkSync(localfilepath);
         return res;
     }
     catch (error) {
         fs_1.default.unlinkSync(localfilepath);
-        // throw new ApiError(404,"something went wrong in upload")
         console.log("something went wrong ");
     }
 });

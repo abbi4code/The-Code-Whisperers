@@ -20,14 +20,14 @@ import ApiError from "./apiError";
               allowed_formats: ["jpg", "jpeg", "png", "webp"],
 
             });
-            // console.log("uploaded on cloudinary",res)
+          
             fs.unlinkSync(localfilepath)
             return res
 
         
         } catch (error) {
             fs.unlinkSync(localfilepath)
-            // throw new ApiError(404,"something went wrong in upload")
+          
             console.log("something went wrong ")
             
         }

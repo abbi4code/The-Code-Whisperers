@@ -144,6 +144,9 @@ const handlesubmit = async(e: React.FormEvent<HTMLFormElement>) => {
               
              } catch (error: any) {
               console.log(error)
+              if(error.response.status === 404){
+                toast.error<toastMsgprops>(error.response.data.msg[0],{position: "top-right",theme:"dark",autoClose:2000})
+              }
               
               toast.error<toastMsgprops>(error.response.data.msg,{position: "top-right",theme:"dark",autoClose:2000})
               

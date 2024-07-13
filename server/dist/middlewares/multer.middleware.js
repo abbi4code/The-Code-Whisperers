@@ -14,4 +14,13 @@ const storage = multer_1.default.diskStorage({
         cb(null, file.fieldname + "-" + uniqueSuffix);
     },
 });
-exports.upload = (0, multer_1.default)({ storage });
+const fileFilter = (req, file, cb) => {
+    // Accept images only
+    if (file.mimetype.startsWith("image/")) {
+        cb(null, true);
+    }
+    else {
+        cb(new Error("Only image files are allowed!"), false);
+    }
+};
+exports.upload = (0, multer_1.default)({ storage, fileFilter });

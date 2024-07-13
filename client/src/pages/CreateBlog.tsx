@@ -59,7 +59,7 @@ export default function CreateBlog() {
           setTimeout(() => {
             setloader(false);
             navigate("/blogs")
-          }, 1000);
+          }, 800);
         }
         
       } catch (error) {

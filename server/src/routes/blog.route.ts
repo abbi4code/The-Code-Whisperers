@@ -76,7 +76,7 @@ router.post('/create',authvalidation,upload.fields([{ name: "imageurl", maxCount
 router.get('/bulk', authvalidation,async(req,res)=>{
     const bulk = await prisma.blogs.findMany({
       orderBy:{
-        createAtdate: "desc"
+        createAttime: "desc"
       },
       include:{
         user: {

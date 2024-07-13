@@ -67,7 +67,7 @@ router.post('/create', auth_middleware_1.default, multer_middleware_1.upload.fie
 router.get('/bulk', auth_middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const bulk = yield prisma.blogs.findMany({
         orderBy: {
-            createAtdate: "desc"
+            createAttime: "desc"
         },
         include: {
             user: {
