@@ -77,7 +77,7 @@ export default function CreateBlog() {
       <RetroGrid />
 
       {loader ? (
-        <div className="h-full justify-center flex w-full items-center">
+        <div className="h-screen relative z-10 justify-center flex w-full items-center">
           <SyncLoader
             color="#ffffff"
             loading={loader}

@@ -4,18 +4,33 @@ import { updateblogsinput } from "../types"
 import { PrismaClient } from "@prisma/client"
 import cloudinaryUpload from "../utils/cloudinary"
 import { upload } from "../middlewares/multer.middleware"
+import { z } from "zod"
 
 
 
 const router = express.Router()
 const prisma = new PrismaClient()
 
+const createbloginput  = z.object({
+    title: z.string().min(5, { message: "title should be atleast 5 characters" }),
+    description: z.string().min(5, { message: "description should be atleast 20 characters" }),
+})
+
 
 router.post('/create',authvalidation,upload.fields([{ name: "imageurl", maxCount: 1 }]),async(req,res)=>{
     const {title,description} = req.body
+
    
 
     try {
+      const validinputs = createbloginput.safeParse({
+        title: title,
+        description: description,
+      });
+      if (!validinputs.success) {
+        const msg = validinputs.error.errors.map((err) => err.message);
+        return res.status(404).json({ msg });
+      }
      
 
       
@@ -26,7 +41,7 @@ router.post('/create',authvalidation,upload.fields([{ name: "imageurl", maxCount
     
       console.log("imageurlpath",imgurlpath)
       if(!imgurlpath){
-        // throw new ApiError(401, "img not uploaded")
+     
         return res.status(404).json({msg: "img not uploaded"})
       }
 
@@ -34,7 +49,7 @@ router.post('/create',authvalidation,upload.fields([{ name: "imageurl", maxCount
       
       if(!img){
         return res.status(404).json({msg: "input img required"})
-        // throw new ApiError(400,"input img required")
+ 
       }
 
 
@@ -59,17 +74,31 @@ router.post('/create',authvalidation,upload.fields([{ name: "imageurl", maxCount
 })
 
 router.get('/bulk', authvalidation,async(req,res)=>{
-    const bulk = await prisma.blogs.findMany()
-    //@ts-ignore
+    const bulk = await prisma.blogs.findMany({
+      orderBy:{
+        createAtdate: "desc"
+      },
+      include:{
+        user: {
+          select:{
+            firstname: true
+          }
+        }
+    }})
+  
+
+    // @ts-ignore
     const id = req.user.userid
     console.log(id)
+    
 
     return res.status(200).json({bulk})
 })
 
 router.get('/myblogs',authvalidation,async(req,res)=>{
-    //@ts-ignore
-    const id = parseInt(req.query.id);
+  //@ts-ignore
+
+    const id:number = parseInt(req.query.id);
     if(!id){
         res.status(404).json({msg: "blog id not provided"})
     }

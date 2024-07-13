@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const types_1 = require("../types");
 const client_1 = require("@prisma/client");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const auth_middleware_1 = __importDefault(require("../middlewares/auth.middleware"));
 const router = express_1.default.Router();
 const prisma = new client_1.PrismaClient();
 const secretkey = process.env.JWT_SECRET || "abhishek";
@@ -25,7 +26,7 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
         const validuser = types_1.signupinput.safeParse({ email: details.email, password: details.password, firstname: details.firstname, details: details.lastname });
         if (!validuser.success) {
             const msg = validuser.error.errors.map((item) => item.message);
-            return res.json({ msg });
+            return res.status(404).json({ msg, status: 404 });
         }
         const existuser = yield prisma.user.findUnique({
             where: {
@@ -64,12 +65,13 @@ router.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
         if (!validuser.success) {
             const msg = validuser.error.errors.map((item) => item.message);
-            return res.json({ msg });
+            return res.status(404).json({ msg });
         }
         const existuser = yield prisma.user.findUnique({
             where: {
                 //@ts-ignore
                 email: details.email,
+                password: details.password,
             },
         });
         if (!existuser) {
@@ -90,6 +92,21 @@ router.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function*
     catch (error) {
         console.log(error);
         res.json({ msg: "error while signin" });
+    }
+}));
+router.get("/userdetails", auth_middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield prisma.user.findUnique({
+            where: {
+                //@ts-ignore
+                id: req.user.userid,
+            },
+        });
+        return res.status(200).json({ user });
+    }
+    catch (error) {
+        console.log(error);
+        res.json({ msg: "error while getting user details" });
     }
 }));
 exports.default = router;

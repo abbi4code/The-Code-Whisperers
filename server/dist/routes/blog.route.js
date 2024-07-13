@@ -18,24 +18,35 @@ const types_1 = require("../types");
 const client_1 = require("@prisma/client");
 const cloudinary_1 = __importDefault(require("../utils/cloudinary"));
 const multer_middleware_1 = require("../middlewares/multer.middleware");
+const zod_1 = require("zod");
 const router = express_1.default.Router();
 const prisma = new client_1.PrismaClient();
+const createbloginput = zod_1.z.object({
+    title: zod_1.z.string().min(5, { message: "title should be atleast 5 characters" }),
+    description: zod_1.z.string().min(5, { message: "description should be atleast 20 characters" }),
+});
 router.post('/create', auth_middleware_1.default, multer_middleware_1.upload.fields([{ name: "imageurl", maxCount: 1 }]), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, description } = req.body;
     try {
+        const validinputs = createbloginput.safeParse({
+            title: title,
+            description: description,
+        });
+        if (!validinputs.success) {
+            const msg = validinputs.error.errors.map((err) => err.message);
+            return res.status(404).json({ msg });
+        }
         // @ts-ignore
         const userid = req.user.userid;
         // @ts-ignore
         const imgurlpath = req.files && req.files.imageurl ? req.files.imageurl[0].path : undefined;
         console.log("imageurlpath", imgurlpath);
         if (!imgurlpath) {
-            // throw new ApiError(401, "img not uploaded")
             return res.status(404).json({ msg: "img not uploaded" });
         }
         const img = yield (0, cloudinary_1.default)(imgurlpath);
         if (!img) {
             return res.status(404).json({ msg: "input img required" });
-            // throw new ApiError(400,"input img required")
         }
         const blog = yield prisma.blogs.create({
             data: {
@@ -54,8 +65,19 @@ router.post('/create', auth_middleware_1.default, multer_middleware_1.upload.fie
     }
 }));
 router.get('/bulk', auth_middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const bulk = yield prisma.blogs.findMany();
-    //@ts-ignore
+    const bulk = yield prisma.blogs.findMany({
+        orderBy: {
+            createAtdate: "desc"
+        },
+        include: {
+            user: {
+                select: {
+                    firstname: true
+                }
+            }
+        }
+    });
+    // @ts-ignore
     const id = req.user.userid;
     console.log(id);
     return res.status(200).json({ bulk });

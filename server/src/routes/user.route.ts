@@ -3,6 +3,7 @@ import { signininput, signupinput } from "../types"
 import { PrismaClient } from "@prisma/client"
 import jwt from "jsonwebtoken"
 import ApiError from "../utils/apiError"
+import authvalidation from "../middlewares/auth.middleware"
 
 
 const router = express.Router()
@@ -21,7 +22,8 @@ router.post('/signup',async(req,res)=>{
       const validuser = signupinput.safeParse({email: details.email,password: details.password, firstname: details.firstname,details:details.lastname})
     if(!validuser.success){
         const msg = validuser.error.errors.map((item)=> item.message)
-        return res.json({msg})
+
+        return res.status(404).json({msg,status: 404})
     }
 
     const existuser = await prisma.user.findUnique({
@@ -78,13 +80,15 @@ router.post('/signup',async(req,res)=>{
       });
       if (!validuser.success) {
         const msg = validuser.error.errors.map((item) => item.message);
-        return res.json({ msg });
+        
+        return res.status(404).json({ msg });
       }
 
       const existuser = await prisma.user.findUnique({
         where: {
           //@ts-ignore
           email: details.email,
+          password: details.password,
         },
       });
       if (!existuser) {
@@ -116,6 +120,26 @@ router.post('/signup',async(req,res)=>{
 
 
   });
+
+  router.get("/userdetails",authvalidation,async(req,res)=>{
+
+   try {
+     const user = await prisma.user.findUnique({
+       where: {
+         //@ts-ignore
+         id: req.user.userid,
+       },
+     });
+
+     return res.status(200).json({ user });
+    
+   } catch (error) {
+      console.log(error)
+      res.json({msg: "error while getting user details"})
+    
+   }
+
+  })
 
 
 export default router
