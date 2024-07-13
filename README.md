@@ -4,7 +4,7 @@
 
 Welcome to The-Code-Whisperers, a dedicated platform for coding enthusiasts to share their ideas and insights into the latest
 technologies shaping the industry. Whether you're passionate about web development,
-AI, blockchain, or any other tech domain, Coders' Corner provides a space for you to articulate your thoughts and connect with like-minded individuals
+AI, blockchain, or any other tech domain, this platform provides a space for you to articulate your thoughts and connect with like-minded individuals
 
 
 
