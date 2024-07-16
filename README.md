@@ -24,7 +24,7 @@ https://github.com/user-attachments/assets/9788d6f0-5ee3-45b3-a46c-311d862117b0
 # 👉Features
 
 - Secure login and registration using JWT authentication
-- Easy-to-use interface for creating and editing blog posts.
+- Easy-to-use interface for creating blog posts.
 - Support for uploading and embedding images using Cloudinary and Multer.
 - Data validation and integrity ensured with Zod.
  
