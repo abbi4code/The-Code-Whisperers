@@ -1,12 +1,8 @@
 import RetroGrid from "../components/effects/retrobg";
 import GradualSpacing from "../components/effects/gradualspacing";
-
-
 import { useNavigate } from "react-router-dom";
 import { cn } from "../components/lib/utils";
 import Marquee from "../components/effects/marque";
-
-
 
 const Home = () => {
  

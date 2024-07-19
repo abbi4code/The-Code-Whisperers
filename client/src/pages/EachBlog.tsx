@@ -11,7 +11,7 @@ export default function EachBlog() {
     const blogid = params.get("blogid")
 
     const [blogsinput, setblogsinput] = useState({username: "", description: "", title: "", imageurl:"",createddata:"", createdtime:""})
-    let readtime;
+ 
 //for now 
     const avatar = blogsinput.username.toUpperCase().slice(0,2)
    
@@ -39,6 +39,7 @@ export default function EachBlog() {
      if (blogsinput.createddata) {
        date = blogsinput.createddata.split("T")[0];
      }
+        let readtime:number;
 
      if (blogsinput.createdtime) {
        time = blogsinput.createdtime.split("T")[1].split(".")[0];

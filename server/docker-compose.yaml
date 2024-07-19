@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  postgresdb:
+    image: postgres 
+    container_name: postgresdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/data/db
+  
+  servermain:
+    build: .
+    container_name: servermain
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgresdb
+    environment:
+      DATABASE_URL: "postgresql://postgres@postgresdb:5432/postgres"
+      JWT_SECRET: "abhishek"
+      CLOUD_NAME: "dn4w4noy2"
+      API_KEY: "915432529135811"
+      API_SECRET: "yICTZ8Z1k0UbRvTjHJ6DLdvulPE"
+
+volumes:
+  postgres:
