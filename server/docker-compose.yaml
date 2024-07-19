@@ -18,9 +18,9 @@ services:
     environment:
       DATABASE_URL: "postgresql://postgres@postgresdb:5432/postgres"
       JWT_SECRET: "abhishek"
-      CLOUD_NAME: "dn4w4noy2"
-      API_KEY: "915432529135811"
-      API_SECRET: "yICTZ8Z1k0UbRvTjHJ6DLdvulPE"
+      CLOUD_NAME: ""
+      API_KEY: ""
+      API_SECRET: ""
 
 volumes:
   postgres:
