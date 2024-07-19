@@ -1,0 +1,31 @@
+name: Build and deploy
+
+on: 
+  pull_request:
+    branches:
+      - main
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        working-directory: ./server
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        working-directory: ./server
+        run: npm install
+      - name: Generate Prisma Client
+        working-directory: ./server
+        run: npx prisma generate
+      - name: Build
+        working-directory: ./server
+        run: npm run build
+      
+     
+
+    
