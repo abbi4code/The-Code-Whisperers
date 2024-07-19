@@ -8,24 +8,38 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Set up Node.js
         working-directory: ./server
         uses: actions/setup-node@v2
         with:
           node-version: '20'
+
+      - name: Cache server dependencies
+        working-directory: ./server
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/server/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         working-directory: ./server
         run: npm install
+
       - name: Generate Prisma Client
         working-directory: ./server
         run: npx prisma generate
+
+      - name: Run tests
+        working-directory: ./server
+        run: npm test
+
       - name: Build
         working-directory: ./server
         run: npm run build
-      
-     
-
-    
