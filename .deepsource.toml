@@ -7,9 +7,6 @@ exclude_patterns = ["node_modules/", "dist/", "build/"]
 name = "javascript"
 enabled = true
 
-  [analyzers.meta]
-  runtime_version = "20"
-
   [analyzers.exclude]
   patterns = ["./client/node_modules/", "./server/node_modules/"]
 
