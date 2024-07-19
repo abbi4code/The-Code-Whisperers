@@ -1,0 +1,38 @@
+version = 1
+
+test_patterns = ["**/tests/*", "**/__tests__/*", "**/*.spec.js", "**/*.spec.ts"]
+exclude_patterns = ["node_modules/", "dist/", "build/"]
+
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  runtime_version = "20"
+
+  [analyzers.exclude]
+  patterns = ["./client/node_modules/", "./server/node_modules/"]
+
+  [analyzers.include]
+  patterns = ["./client/", "./server/"]
+
+  [analyzers.configuration]
+  # Add any additional configurations for the analyzer here
+
+[[analyzers]]
+name = "docker"
+enabled = true
+
+[[analyzers]]
+name = "secrets"
+enabled = true
+
+# Add more analyzers as needed, for example:
+# [[analyzers]]
+# name = "typescript"
+# enabled = true
+
+# [[analyzers]]
+# name = "python"
+# enabled = true
+# version = "3.x.x"
