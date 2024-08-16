@@ -62,14 +62,7 @@ const Blogs =() => {
               const compdate = blog.createAtdate
               const date = compdate?.split('T')[0]
               console.log()
-
-
-              
-
-
-              return (
-               
-                
+              return (                     
                 <>
                   <Blogscomponent
                     id={blog.id}

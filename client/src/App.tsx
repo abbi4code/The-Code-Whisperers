@@ -5,7 +5,6 @@ import Signup from './pages/Signup'
 import Signin from './pages/Signin'
 import Blogs from './pages/Blogs'
 import Home from './pages/Home'
-
 import CreateBlog from './pages/CreateBlog'
 import EachBlog from './pages/EachBlog'
 
