@@ -7,6 +7,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { CSSProperties } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
+import { debounce } from "lodash";
 
 
 const override: CSSProperties = {
@@ -32,7 +33,23 @@ export default function CreateBlog() {
   const navigate = useNavigate()
   const [loader, setloader] = useState(false);
 
+  const handleTitleChange = debounce((e)=>{
+    
+      setinput((c) => ({
+        ...c,
+        title: e.target.value,
+      }));
+  },500)
+  const handleDescChange = debounce((e)=>{
+    
+      setinput((c) => ({
+        ...c,
+        description: e.target.value.replace(/\n/g, "<br />"),
+      }));
+  },500)
+
   console.log(input);
+
 
 
     async function handleimg() {
@@ -101,19 +118,14 @@ export default function CreateBlog() {
             <textarea
               placeholder="Title"
               className="w-full h-[20vh]  text-[#F1E5D1] bg-transparent no-scrollbar outline-none font-bold text-4xl overflow-y-scroll"
-              onChange={(e: any) =>
-                setinput((c) => ({ ...c, title: e.target.value }))
+              onChange={handleTitleChange
               }
             />
 
             <textarea
               placeholder="Description"
               className="w-full  text-[#F1E5D1] bg-transparent outline-none no-scrollbar min-h-[80vh] overflow-y-scroll font-bold text-lg "
-              onChange={(e: any) =>
-                setinput((c) => ({
-                  ...c,
-                  description: e.target.value.replace(/\n/g, "<br />"),
-                }))
+              onChange={handleDescChange
               }
             />
           </div>
