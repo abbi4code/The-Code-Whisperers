@@ -6,15 +6,16 @@
   "scripts": {
     "start": "nodemon src/index.ts",
     "build": "rimraf dist && tsc",
+    "postinstall": "npm run build && npx prisma generate",
     "ts.check": "tsc --project tsconfig.json",
     "add-build": "git add dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:generate": "npx prisma generate"
   },
   "pre-commit": [
-      "ts.check",
-      "build",
-      "add-build"
+    "ts.check",
+    "build",
+    "add-build"
   ],
   "keywords": [],
   "author": "",
