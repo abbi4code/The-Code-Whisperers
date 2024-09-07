@@ -1,5 +1,5 @@
 import ShineBorder from "../components/effects/shineborder";
-import React, { useState } from "react";
+import React from "react";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { cn } from "../components/utils/cn";
@@ -8,6 +8,9 @@ import {backendUrl} from "../config"
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRecoilState } from "recoil";
+import { UserAtom } from "../stores/useratoms/UserAtom";
+import debounce from "lodash";
 
 
 interface Signupinput{
@@ -37,13 +40,14 @@ export default function Signup() {
   
   
 const navigate = useNavigate();
+const [Signupinput, useSignupinput] = useRecoilState<Signupinput>(UserAtom);
   
-const [Signupinput, useSignupinput] = useState<Signupinput>({
-  email: "",
-  password: "",
-  firstname: "",
-  lastname: "",
-});
+// const [Signupinput, useSignupinput] = useState<Signupinput>({
+//   email: "",
+//   password: "",
+//   firstname: "",
+//   lastname: "",
+// });
 console.log(Signupinput)
 
 const handlesubmit = async(e: React.FormEvent<HTMLFormElement>) => {
