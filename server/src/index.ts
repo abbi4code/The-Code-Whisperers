@@ -17,7 +17,9 @@ app.use(express.static("public"));
 app.get("/",(req,res)=>{
     res.send("Hello World")
 })
-
+app.get("/test",(req,res)=>{
+    res.send("testing works")
+})
 
 app.use('/api',ruotes)
 

@@ -14,6 +14,12 @@ dotenv_1.default.config();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express_1.default.static("public"));
+app.get("/", (req, res) => {
+    res.send("Hello World");
+});
+app.get("/test", (req, res) => {
+    res.send("testing works");
+});
 app.use('/api', index_1.default);
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
