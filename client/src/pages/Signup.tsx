@@ -10,7 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRecoilState } from "recoil";
 import { UserAtom } from "../stores/useratoms/UserAtom";
-import debounce from "lodash";
+
 
 
 interface Signupinput{
