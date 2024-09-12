@@ -49,8 +49,8 @@ export default function EachBlog() {
          readtime = Number(time.split(":")[0]);
        }
        console.log(time);
+       console.log(readtime);
      }
- console.log(blogsinput);
 
 
  function countwords(text: string){
