@@ -92,7 +92,7 @@ router.post('/signup',async(req,res)=>{
         },
       });
       if (!existuser) {
-        return res.status(400).json({ msg: "user not exist" });
+        return res.status(400).json({ msg: "Invalid Credentials" });
       }
 
       const user = await prisma.user.findUnique({

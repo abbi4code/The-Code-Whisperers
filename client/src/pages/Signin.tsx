@@ -93,16 +93,16 @@ const [Signininput, useSignininput] = useState<Signininput>({
                     navigate("/");
                   }, 300);
                 } else {
-                  toast.error(res.data.msg, {
+                  toast.error(res.data.msg[0], {
                     position: "top-right",
                     theme: "dark",
                     autoClose: 2000,
                   });
-                  console.log(res.data.msg);
+                  console.log(res.data.msg[0]);
                 }
               } catch (error: any) {
-                console.log(error);
-                toast.error(error.response.data.msg[0], {
+                console.log(error.response.data.msg);
+                toast.error(error.response.data.msg, {
                   position: "top-right",
                   theme: "dark",
                   autoClose: 2000,
