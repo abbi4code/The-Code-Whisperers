@@ -4,7 +4,7 @@ import z from "zod";
 export const signupinput = z.object({
   email: z
     .string()
-    .min(5, { message: "username of min 5 character" })
+    .min(5, { message: "Provide valid email" })
     .email({ message: "Invalid email address" }),
   password: z.string().min(6, { message: "Password must be 6 or more characters long" }),
  firstname: z
@@ -17,13 +17,13 @@ export const signupinput = z.object({
 export const signininput = z.object({
   email: z
     .string()
-    .min(5, { message: "username of min 5 character" })
+    .min(5, { message: "Provaide Valid email" })
     .email({ message: "Invalid email address" }),
   password: z.string().min(6, { message: "password must be 6 or more characters long" }),
 });
 
 export const blogsinput = z.object({
-  title: z.string().min(1, { message: "username of min 1 character" }),
+  title: z.string().min(1, { message: "title should be of min 1 character" }),
   description: z.string().optional(),
   upvotes: z.number().optional(),
 });
@@ -33,7 +33,7 @@ export const blogsinput = z.object({
 export const updateblogsinput = z.object({
   title: z
     .string()
-    .min(1, { message: "username of min 1 character" })
+    .min(1, { message: "title should be of min 1 character" })
     .optional(),
   description: z.string().optional(),
   userid: z.number().optional(),

@@ -16,6 +16,7 @@ const serverurl = backendUrl
 console.log(serverurl)
 
 export default function Signin() {
+  const [loading,setLoading] = useState(false)
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted");
@@ -74,32 +75,44 @@ const [Signininput, useSignininput] = useState<Signininput>({
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
             type="submit"
             onClick={async () => {
-             try {
-               const res = await axios.post(`${serverurl}/user/signin`, {
-                 email: Signininput.email,
-                 password: Signininput.password,
-               });
-               const token = res.data.token;
-               if (token) {
-                 localStorage.setItem("token", token);
-                toast.success(res.data.msg,{position:"top-right",theme:"dark",autoClose:2000})
-                 setTimeout(() => {
-                  navigate("/");
-                  
-                 }, 1000);
-               } else {
-                toast.error(res.data.msg,{position:"top-right",theme:"dark",autoClose:2000})
-                 console.log(res.data.msg);
-               }
-              
-             } catch (error: any) {
-              console.log(error)
-              toast.error(error.response.data.msg,{position:"top-right",theme:"dark",autoClose:2000})
-              
-             }
+              setLoading(true);
+              try {
+                const res = await axios.post(`${serverurl}/user/signin`, {
+                  email: Signininput.email,
+                  password: Signininput.password,
+                });
+                const token = res.data.token;
+                if (token) {
+                  localStorage.setItem("token", token);
+                  toast.success(res.data.msg, {
+                    position: "top-right",
+                    theme: "dark",
+                    autoClose: 2000,
+                  });
+                  setTimeout(() => {
+                    navigate("/");
+                  }, 300);
+                } else {
+                  toast.error(res.data.msg, {
+                    position: "top-right",
+                    theme: "dark",
+                    autoClose: 2000,
+                  });
+                  console.log(res.data.msg);
+                }
+              } catch (error: any) {
+                console.log(error);
+                toast.error(error.response.data.msg[0], {
+                  position: "top-right",
+                  theme: "dark",
+                  autoClose: 2000,
+                });
+              } finally {
+                setLoading(false);
+              }
             }}
           >
-            Sign in &rarr;
+            {loading ? "wait..." : "Sign in"} &rarr;
             <BottomGradient />
           </button>
 

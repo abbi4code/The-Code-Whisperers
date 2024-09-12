@@ -29,7 +29,7 @@ const Blogs =() => {
           setblogs(res.data.bulk);
           setloader(false);
           
-        }, 1500);
+        }, 100);
         
       } catch (error) {
         console.log(error)

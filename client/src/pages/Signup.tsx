@@ -1,5 +1,5 @@
 import ShineBorder from "../components/effects/shineborder";
-import React from "react";
+import React, { useState } from "react";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { cn } from "../components/utils/cn";
@@ -41,6 +41,7 @@ export default function Signup() {
   
 const navigate = useNavigate();
 const [Signupinput, useSignupinput] = useRecoilState<Signupinput>(UserAtom);
+const [loading,Setloading] = useState(false)
   
 console.log(Signupinput)
 
@@ -120,6 +121,7 @@ const handlesubmit = async(e: React.FormEvent<HTMLFormElement>) => {
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
             type="submit"
             onClick={async()=>{
+              Setloading(true)
              try {
               const res = await axios.post(`${serverurl}/user/signup`,{
                 email: Signupinput.email,
@@ -134,7 +136,7 @@ const handlesubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                 setTimeout(() => {
                   navigate("/");
                   
-                }, 1000);
+                }, 300);
               }else if(res.data.status === 404){
                 toast.warning<toastMsgprops>(res.data.msg,{position: "top-right",theme:"dark",autoClose:2000})
                 console.log(res.data.msg)
@@ -146,14 +148,16 @@ const handlesubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                 toast.error<toastMsgprops>(error.response.data.msg[0],{position: "top-right",theme:"dark",autoClose:2000})
               }
               
-              toast.error<toastMsgprops>(error.response.data.msg,{position: "top-right",theme:"dark",autoClose:2000})
+              toast.error<toastMsgprops>(error.response.data.msg[0],{position: "top-right",theme:"dark",autoClose:2000})
               
+             }finally{
+              Setloading(false)
              }
             }}
            
            
           >
-            Sign up &rarr;
+             {loading ? "loading..." : "Sign-up"}&rarr;
             <BottomGradient />
           </button>
 
