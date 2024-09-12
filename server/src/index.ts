@@ -1,5 +1,5 @@
 import express from "express"
-import ruotes from "./routes/index"
+import routes from "./routes/index"
 import dotenv from "dotenv"
 import cors from "cors"
 
@@ -21,7 +21,7 @@ app.get("/test",(req,res)=>{
     res.send("testing works")
 })
 
-app.use('/api',ruotes)
+app.use('/api',routes)
 
 
 

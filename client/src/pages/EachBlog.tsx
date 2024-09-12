@@ -39,9 +39,9 @@ export default function EachBlog() {
      if (blogsinput.createddata) {
        date = blogsinput.createddata.split("T")[0];
      }
-        let readtime:number;
-
+     
      if (blogsinput.createdtime) {
+       let readtime:number;
        time = blogsinput.createdtime.split("T")[1].split(".")[0];
        if (Number(time.split(":")[0]) > 12) {
          readtime = Number(time.split(":")[0]) - 12;

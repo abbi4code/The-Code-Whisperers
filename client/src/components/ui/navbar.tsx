@@ -80,8 +80,6 @@ export const Menu = ({
 export const ProductItem = ({
   title,
   description,
-  href,
-  src,
 }: {
   title: string;
   description: string;

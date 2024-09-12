@@ -42,12 +42,6 @@ export default function Signup() {
 const navigate = useNavigate();
 const [Signupinput, useSignupinput] = useRecoilState<Signupinput>(UserAtom);
   
-// const [Signupinput, useSignupinput] = useState<Signupinput>({
-//   email: "",
-//   password: "",
-//   firstname: "",
-//   lastname: "",
-// });
 console.log(Signupinput)
 
 const handlesubmit = async(e: React.FormEvent<HTMLFormElement>) => {

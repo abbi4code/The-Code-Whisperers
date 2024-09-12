@@ -39,7 +39,6 @@ const slugs = [
 ];
 
 export const EvervaultCard = ({
-  text,
   className,
 }: {
   text?: string;
