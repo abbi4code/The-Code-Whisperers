@@ -5,6 +5,8 @@ const router = express.Router()
 
 
 router.use('/user',userrouter)
+
+
 router.use('/blog',blogrouter)
 
 
