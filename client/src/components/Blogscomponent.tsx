@@ -33,7 +33,7 @@ export default function BlogCard({
 
   return (
     <CardContainer className="inter-var " key={key}>
-      <CardBody className=" border-[.2px] border-white/10 relative group/card flex flex-col gap-4 md:grid md:grid-cols-3 dark:hover:shadow-2xl   md:w-[50rem] lg:w-[70rem] h-auto rounded-xl p-6 backdrop-blur-[2px] ">
+      <CardBody className=" border-[2px] border-white/10 relative group/card flex flex-col gap-4 md:grid md:grid-cols-3 dark:hover:shadow-2xl   md:w-[50rem] lg:w-[70rem] h-auto rounded-xl p-6 backdrop-blur-[2px] ">
         <div
           className="col-span-1 md:col-span-2 flex flex-col cursor-pointer"
           onClick={handleOnclick}

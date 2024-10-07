@@ -92,7 +92,7 @@ export function Navbar(){
 
   return (
     <div className="flex w-full  sticky top-7  text-slate-200 justify-center">
-      <nav className=" w-[25rem] sm:min-w-[40rem] flex justify-evenly text-xl backdrop-blur-sm items-center rounded-xl gap-5 font-bold px-3 py-2 border border-slate-400">
+      <nav className=" w-[20rem] sm:min-w-[40rem] flex justify-evenly text-lg backdrop-blur-sm items-center rounded-xl gap-5 font-bold px-3 py-2 border border-slate-400">
         <h1 className="hover:text-[#F1E5D1] backdrop-filter cursor-pointer" onClick={()=>{navigate('/')}}>
           Home
         </h1>

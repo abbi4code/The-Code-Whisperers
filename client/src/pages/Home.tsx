@@ -14,14 +14,14 @@ const Home = () => {
       <Navbar />
         <div className="flex items-center gap-14 justify-center mt-20 bg-opacity-20 p-20 md:shadow-xl  flex-col">
           <GradualSpacing
-            className="font-display text-center text-[3rem] sm:text-[5rem] lg:text-[7rem] font-bold tracking-tighter text-black dark:text-white  md:leading-[5rem]"
+            className="font-display text-center text-[2.5rem] sm:text-[5rem] lg:text-[7rem] font-bold tracking-tighter text-black dark:text-white  md:leading-[5rem]"
             text="Welcome Coders"
             duration={0.6}
           />
 
-          <div className="flex flex-col gap-2 mt-4 justify-center items-center font-bold text-2xl">
+          <div className="flex flex-col gap-2 mt-4 justify-center items-center font-bold text-md sm:text-2xl">
             <p className="text-white text-center">
-              <span className="bg-green-600 rounded-lg border  border-black px-1 py-1">
+              <span className="bg-green-600 rounded-lg border border-black px-1 py-1">
                 Share Your Coding
               </span>{" "}
               Journey and Discover New Insights
@@ -71,14 +71,14 @@ function Navbar(){
 
    const navItems = [
      {
-       name: "All blogs",
+       name: "Blogs",
        onClick: () => {
          token ? navigate("/blogs") : navigate("/signin");
        },
        className: "",
      },
      {
-       name: "Create Blog",
+       name: "Create",
        onClick: () => {
          token ? navigate("/createblog") : navigate("/signin");
        },
@@ -95,8 +95,11 @@ function Navbar(){
   return (
     <div className="bg-black w-full  h-16 flex items-center absolute top-2 justify-center px-10">
       <div className="flex  w-full  xl:min-w-[40rem] bg-[#0f1115] justify-around items-center border  md:gap-4 rounded-xl px-1 sm:px-3 py-2 border-white">
-        <h1 className="font-extrabold font-sans text-center mr-3 sm:mr-5 text-[#F6D776] text-md  sm:text-xl md:text-3xl">
+        <h1 className="font-extrabold font-sans hidden sm:block text-center mr-3 sm:mr-5 text-[#F6D776] text-sm  sm:text-xl md:text-3xl">
           The Code Whisperers
+        </h1>
+        <h1 className="font-extrabold font-sans sm:hidden text-center mr-3 sm:mr-5 text-[#F6D776] text-sm  sm:text-xl md:text-3xl">
+          TCW
         </h1>
         <div className="flex gap-3 sm:gap-5 justify-center items-center">
           {navItems.map((item) => (
